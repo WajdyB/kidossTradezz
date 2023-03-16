@@ -16,6 +16,8 @@ import product_cart from "../../Components/data/product_data";
 import Emptyview from "../../Components/EmptyView/Emptyview";
 import Crousell from "../../Components/Crousell/Crousell";
 import "./Discover.css";
+import NavBareElement from "../../Sup Components/NavBareElement";
+import Navbardiscover from "../../Components/Navbardiscover/Navbardiscover";
 
 let theme = createTheme({
   mixins: {
@@ -146,18 +148,11 @@ export default function Discover() {
     console.log(mobileOpen);
   };
   return (
-    <ThemeProvider theme={theme}>
-      <Box
-        className="Boxii"
-        sx={{
-          display: "flex",
-          backgroundImage: `url(${imge})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundAttachment: "fixed",
-        }}
-      >
-        <Box
+    <Box>
+      <Box>
+        <Navbardiscover />
+
+        {/*<Box
           component="nav"
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         >
@@ -172,52 +167,57 @@ export default function Discover() {
               changePrice={handleChangePrice}
             />
           )}
-        </Box>
-
-        <Box
-          className="red"
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "column",
-            width: "100%",
-            maxWidth: "150vh",
-            marginTop: "2vh",
-            marginLeft: "8vh",
-            marginRight: "4vh",
-          }}
-        >
-          <Header onDrawerToggle={handleDrawerToggle} />
-          <div
-            style={{
-              overflow: "auto",
+          </Box>*/}
+        <Box sx={{ display: "flex", justifyContent: "column" }}>
+          <Navigator
+            variant="temporary"
+            ages={ages}
+            changeChecked={handleChangeChecked}
+            prices={prices}
+            changePrice={handleChangePrice}
+          />
+          <Box
+            className="red"
+            sx={{
               display: "flex",
-              height: "280px",
-              marginTop: "20px",
-              padding: "0px",
-              backgroundColor: "#f3ecb059",
-              boxShadow: "0 8px 32px rgba(31,28,135,0.37) ",
-              borderRadius: "10px",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              width: "100%",
+              backgroundColor: "white",
             }}
           >
-            <Crousell />
-          </div>
+            <div
+              style={{
+                overflow: "auto",
+                display: "flex",
+                marginTop: "20px",
+                height: "270px",
+                backgroundColor: "white",
 
-          <div
-            style={{
-              overflow: "auto",
-              display: "flex",
-              minHeight: "80vh",
-              marginTop: "20px",
-              backgroundColor: "#f3ecb059",
-              boxShadow: "0 8px 32px rgba(31,28,135,0.37) ",
-              borderRadius: "10px",
-            }}
-          >
-            {<Content list={list} />}
-          </div>
+                width: "164vh",
+                alignItems: "center",
+              }}
+            >
+              <Crousell />
+            </div>
+
+            <div
+              style={{
+                marginTop: "40px",
+                overflow: "auto",
+                display: "flex",
+                minHeight: "80vh",
+                backgroundColor: "white",
+                borderRadius: "0px",
+                width: "1300px",
+              }}
+            >
+              {<Content list={list} />}
+            </div>
+          </Box>
         </Box>
       </Box>
-    </ThemeProvider>
+    </Box>
   );
 }

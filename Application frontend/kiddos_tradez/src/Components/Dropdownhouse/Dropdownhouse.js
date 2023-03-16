@@ -40,11 +40,7 @@ function Dropdownhouse() {
       path: "./scooters",
       cName: "submenu-item",
     },
-    
   ];
-
-
-
 
   const [dropdown, setDropdown] = useState(false);
   const List = serviceDropdownhouse.map((item) => {
@@ -64,7 +60,9 @@ function Dropdownhouse() {
   return (
     <>
       <ul
-        className={dropdown ? "services-submenuhouse clicked" : "services-submenuhouse"}
+        className={
+          dropdown ? "services-submenuimm clicked" : "services-submenuimm"
+        }
         onClick={() => setDropdown(!dropdown)}
       >
         {List}

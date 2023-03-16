@@ -67,12 +67,12 @@ function NavBareElement(props) {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar component="nav" sx={{ backgroundColor: "#F3ECB0" }}>
+      <AppBar component="nav" sx={{ backgroundColor: "#2D033B" }}>
         <Toolbar
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            fontFamily: "Ink Free",
+            fontFamily: "Proxima Nova , Verdana , Avenir Next",
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -87,13 +87,13 @@ function NavBareElement(props) {
             sx={{
               display: "flex",
               alignItems: "center",
-              fontFamily: "Ink Free",
+              fontFamily: "Proxima Nova , Verdana , Avenir Next",
             }}
           >
             <Box
               sx={{
                 display: { xs: "none", sm: "block" },
-                fontFamily: "Ink Free",
+                fontFamily: "Proxima Nova , Verdana , Avenir Next",
               }}
             >
               {navItems.map((element, i) => (
@@ -101,8 +101,8 @@ function NavBareElement(props) {
                   key={element.Txt}
                   sx={{
                     color: "#fdfdfe",
-                    fontSize: "20px",
-                    fontFamily: "Ink Free",
+                    fontSize: "15px",
+                    fontFamily: "Proxima Nova , Verdana , Avenir Next",
                     textShadow:
                       "0px 0px 5px #b393d3, 0px 0px 10px #b393d3, 0px 0px 10px #b393d3, 0px 0px 20px #b393d3",
                   }}
@@ -113,7 +113,7 @@ function NavBareElement(props) {
                       style={{
                         color: "inherit",
                         textDecoration: "none",
-                        fontfamily: "Ink Free",
+                        fontfamily: "Proxima Nova , Verdana , Avenir Next",
                       }}
                     >
                       {element.Txt}
@@ -128,7 +128,7 @@ function NavBareElement(props) {
                 display: { sm: "none" },
                 "& .MuiIconButton-root": {
                   color: "#9A0680",
-                  fontFamily: "Ink Free",
+                  fontFamily: "Proxima Nova , Verdana , Avenir Next",
                 },
                 textShadow:
                   "0px 0px 5px #b393d3, 0px 0px 10px #b393d3, 0px 0px 10px #b393d3, 0px 0px 20px #b393d3",
