@@ -13,29 +13,65 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
-import logo from "../Asserts/Logos/kiddostardez.png";
 import { useState, useEffect } from "react";
+import Avatar from "@mui/material/Avatar";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
+import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 const drawerWidth = 240;
 
 const Elements = [
-  { Txt: " Home", href: "/" },
-  { Txt: " About Us ", href: "/aboutus" },
-  { Txt: "Discover", href: "/discover" },
-  { Txt: "My account", href: "/myaccount" },
+  { Txt: <HomeOutlinedIcon />, href: "/" },
+  { Txt: <ErrorOutlineOutlinedIcon />, href: "/aboutus" },
+  { Txt: <SearchOutlinedIcon />, href: "/discover" },
+  {
+    Txt: (
+      <IconButton
+        sx={{
+          p: 0.5,
+          width: 30,
+          height: 30,
+          "&:hover": {
+            textDecorationLine: "none",
+          },
+        }}
+      >
+        <Avatar
+          alt="Remy Sharp"
+          src="/static/images/avatar/2.jpg"
+          sx={{
+            width: "30px",
+            height: "30px",
+            marginRight: "5px",
+            "&:hover": {
+              outline: "none",
+            },
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            right: 1,
+            width: "10px",
+            height: "10px",
+            borderRadius: "50%",
+            backgroundColor: "green",
+            zIndex: 2,
+          }}
+        />
+      </IconButton>
+    ),
+    href: "/myprofile",
+  },
 ];
-
-const Elements2 = [
-  { Txt: " Home", href: "/" },
-  { Txt: " About Us ", href: "/aboutus" },
-  { Txt: "Discover", href: "/discover" },
-  { Txt: "My Profile", href: "/myprofile" },
-];
-
-function NavBareElement(props) {
+{
+  /*  { Txt: "My profil", href: "/myprofile" },
+   */
+}
+function Navbarprofile(props) {
   const [navItems, setnavItems] = useState(Elements);
-  const [navItems2, setnavItems2] = useState(Elements2);
-
   const [activeIndex, setActiveIndex] = useState(0);
 
   const { window } = props;
@@ -76,21 +112,28 @@ function NavBareElement(props) {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar component="nav" sx={{ backgroundColor: "#2D033B" }}>
+      <Box
+        component="nav"
+        sx={{
+          backgroundColor: "#2D033B",
+          width: "100%",
+        }}
+      >
         <Toolbar
           sx={{
             display: "flex",
             justifyContent: "space-between",
             fontFamily: "Proxima Nova , Verdana , Avenir Next",
+            //  backgroundColor: "red",
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <img
-              src={logo}
-              alt="Logo"
-              style={{ height: "100px", margin: "10px", flexGrow: 1 }}
-            />
-          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              // backgroundColor: "green",
+            }}
+          ></Box>
 
           <Box
             sx={{
@@ -102,61 +145,38 @@ function NavBareElement(props) {
             <Box
               sx={{
                 display: { xs: "none", sm: "block" },
-                fontFamily: "Proxima Nova, Verdana, Avenir Next",
+                fontFamily: "Proxima Nova , Verdana , Avenir Next",
               }}
             >
-              {localStorage.getItem("username") &&
-              localStorage.getItem("password")
-                ? navItems2.map((element, i) => (
-                    <Button
-                      key={element.Txt}
-                      sx={{
-                        color: "#fdfdfe",
-                        fontSize: "15px",
-                        fontFamily: "Proxima Nova, Verdana, Avenir Next",
-                        textShadow:
-                          "0px 0px 5px #b393d3, 0px 0px 10px #b393d3, 0px 0px 10px #b393d3, 0px 0px 20px #b393d3",
+              {navItems.map((element, i) => (
+                <Button
+                  key={element.Txt}
+                  sx={{
+                    minWidth: "30px",
+                    // backgroundColor: "red",
+                    color: "#fdfdfe",
+                    height: "30px",
+                    // width: 4,
+                    padding: "15px",
+                    "&:hover": {
+                      bgcolor: " #4c0664b2",
+                      outline: "none",
+                    },
+                  }}
+                >
+                  <div>
+                    <NavLink
+                      to={element.href}
+                      style={{
+                        Width: "5px",
+                        color: "inherit",
                       }}
                     >
-                      <div>
-                        <NavLink
-                          to={element.href}
-                          style={{
-                            color: "inherit",
-                            textDecoration: "none",
-                            fontFamily: "Proxima Nova, Verdana, Avenir Next",
-                          }}
-                        >
-                          {element.Txt}
-                        </NavLink>
-                      </div>
-                    </Button>
-                  ))
-                : navItems.map((element, i) => (
-                    <Button
-                      key={element.Txt}
-                      sx={{
-                        color: "#fdfdfe",
-                        fontSize: "15px",
-                        fontFamily: "Proxima Nova, Verdana, Avenir Next",
-                        textShadow:
-                          "0px 0px 5px #b393d3, 0px 0px 10px #b393d3, 0px 0px 10px #b393d3, 0px 0px 20px #b393d3",
-                      }}
-                    >
-                      <div>
-                        <NavLink
-                          to={element.href}
-                          style={{
-                            color: "inherit",
-                            textDecoration: "none",
-                            fontFamily: "Proxima Nova, Verdana, Avenir Next",
-                          }}
-                        >
-                          {element.Txt}
-                        </NavLink>
-                      </div>
-                    </Button>
-                  ))}
+                      {element.Txt}
+                    </NavLink>
+                  </div>
+                </Button>
+              ))}
             </Box>
 
             <Box
@@ -180,7 +200,7 @@ function NavBareElement(props) {
             </Box>
           </Box>
         </Toolbar>
-      </AppBar>
+      </Box>
 
       <Box component="nav">
         <Drawer
@@ -210,7 +230,7 @@ function NavBareElement(props) {
   );
 }
 
-NavBareElement.propTypes = {
+Navbarprofile.propTypes = {
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
@@ -218,4 +238,4 @@ NavBareElement.propTypes = {
   window: PropTypes.func,
 };
 
-export default NavBareElement;
+export default Navbarprofile;

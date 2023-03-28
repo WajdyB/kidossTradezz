@@ -1,0 +1,21 @@
+.photobar{ border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    color: #fff;
+    display: flex;
+    flex-direction: row;}
+
+    .my-card {width: 155vh;}
+
+
+@media screen and (max-width: 00px) {
+    .my-card {
+      width: 72vh; /* adjust as needed */
+    }
+    .photobar{ width: 72vh;}
+  }
+  
+  
+  
+  
+  
+  

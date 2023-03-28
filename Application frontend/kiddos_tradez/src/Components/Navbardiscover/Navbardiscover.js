@@ -13,18 +13,18 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
-import logo from "../Asserts/Logos/kiddostardez.png";
-import { useState, useEffect } from "react";
+import logo from "../../Asserts/Logos/kiddostardez.png";
 import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
-const drawerWidth = 240;
+import Header from "../Header/Header";
+import { useState } from "react";
 
+const drawerWidth = 240;
 const Elements = [
   { Txt: " Home", href: "/" },
   { Txt: " About Us ", href: "/aboutus" },
   { Txt: "Discover", href: "/discover" },
   { Txt: "My account", href: "/myaccount" },
 ];
-
 const Elements2 = [
   { Txt: " Home", href: "/" },
   { Txt: " About Us ", href: "/aboutus" },
@@ -32,11 +32,10 @@ const Elements2 = [
   { Txt: "My Profile", href: "/myprofile" },
 ];
 
-function NavBareElement(props) {
+function Navbardiscover(props) {
   const [navItems, setnavItems] = useState(Elements);
-  const [navItems2, setnavItems2] = useState(Elements2);
-
   const [activeIndex, setActiveIndex] = useState(0);
+  const [navItems2, setnavItems2] = useState(Elements2);
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -49,39 +48,18 @@ function NavBareElement(props) {
     setActiveIndex(index);
   };
 
-  /*button de la liste*/
-  const drawer = (
-    <Box onClick={handleDrawerToggle}>
-      <List>
-        {navItems.map((element, i) => (
-          <ListItem key={i} disablePadding>
-            <ListItemButton
-              sx={{
-                textAlign: "center",
-                fontfamily: "Ink Free",
-                backgroundColor: i === activeIndex ? "#BA55D3" : "inherit",
-              }}
-              onClick={() => handleListItemClick(i)}
-            >
-              <ListItemText primary={element.Txt} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
-
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar component="nav" sx={{ backgroundColor: "#2D033B" }}>
+      <div style={{ backgroundColor: "#2D033B", width: "100%" }}>
         <Toolbar
           sx={{
             display: "flex",
             justifyContent: "space-between",
             fontFamily: "Proxima Nova , Verdana , Avenir Next",
+            width: "100%",
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -158,59 +136,15 @@ function NavBareElement(props) {
                     </Button>
                   ))}
             </Box>
-
-            <Box
-              sx={{
-                display: { sm: "none" },
-                "& .MuiIconButton-root": {
-                  color: "#9A0680",
-                  fontFamily: "Proxima Nova , Verdana , Avenir Next",
-                },
-                textShadow:
-                  "0px 0px 5px #b393d3, 0px 0px 10px #b393d3, 0px 0px 10px #b393d3, 0px 0px 20px #b393d3",
-              }}
-            >
-              <IconButton
-                aria-label="open drawer"
-                edge="end"
-                onClick={handleDrawerToggle}
-              >
-                <MenuIcon />
-              </IconButton>
-            </Box>
           </Box>
         </Toolbar>
-      </AppBar>
-
-      <Box component="nav">
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true,
-          }}
-          sx={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-              backgroundColor: "#F3ECB0",
-              color: "#F3ECB0",
-              textShadow:
-                "0px 0px 5px #b393d3, 0px 0px 10px #b393d3, 0px 0px 10px #b393d3, 0px 0px 20px #b393d3",
-            },
-          }}
-        >
-          {drawer}
-        </Drawer>
-      </Box>
+        <Header onDrawerToggle={handleDrawerToggle} />
+      </div>
     </Box>
   );
 }
 
-NavBareElement.propTypes = {
+Navbardiscover.propTypes = {
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
@@ -218,4 +152,4 @@ NavBareElement.propTypes = {
   window: PropTypes.func,
 };
 
-export default NavBareElement;
+export default Navbardiscover;
