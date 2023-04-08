@@ -6,9 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-
 import com.authentification.service.UserDetailsImpl;
-
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -23,8 +21,8 @@ import io.jsonwebtoken.UnsupportedJwtException;
 		@Value("wajdiSecretKey")
 		private String jwtSecret;
 
-		@Value("86400000")
-		private int jwtExpirationMs;
+		@Value("86400000000")
+		private Long jwtExpirationMs;
 
 		public String generateJwtToken(Authentication authentication) {
 
