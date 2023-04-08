@@ -17,7 +17,7 @@ public class AccountService {
     private UserRepository userRepository;
 
     // Update account:
-    public ResponseEntity<MessageResponse> updateAccount(Long id_user, User user) {
+   /*public ResponseEntity<MessageResponse> updateAccount(Long id_user, User user) {
         User existentUser = userRepository.findById(id_user).orElse(null);
 
         if (existentUser == null) {
@@ -41,7 +41,128 @@ public class AccountService {
         }
 
 
+    }*/
+    public ResponseEntity<MessageResponse> updateFirstName(Long id_user, String newFirstName) {
+        User existentUser = userRepository.findById(id_user).orElse(null);
+        if (existentUser == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
+        }
+        existentUser.setFirstname(newFirstName);
+        try {
+            userRepository.save(existentUser);
+            return ResponseEntity.ok(new MessageResponse("Firstname modified successfully!"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Failed to modify firstname"));
+        }
     }
+    public ResponseEntity<MessageResponse> updateLastName(Long id_user, String newLastName) {
+        User existentUser = userRepository.findById(id_user).orElse(null);
+        if (existentUser == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
+        }
+        existentUser.setLastname(newLastName);
+        try {
+            userRepository.save(existentUser);
+            return ResponseEntity.ok(new MessageResponse("Lastname modified successfully!"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Failed to modify lastname"));
+        }
+    }
+    public ResponseEntity<MessageResponse> updateUsername(Long id_user, String newUsername) {
+        User existentUser = userRepository.findById(id_user).orElse(null);
+        if (existentUser == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
+        }
+        existentUser.setUsername(newUsername);
+        try {
+            userRepository.save(existentUser);
+            return ResponseEntity.ok(new MessageResponse("Username modified successfully!"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Failed to modify username"));
+        }
+    }
+
+    public ResponseEntity<MessageResponse> updateEmail(Long id_user, String newEmail) {
+        User existentUser = userRepository.findById(id_user).orElse(null);
+        if (existentUser == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
+        }
+        existentUser.setEmail(newEmail);
+        try {
+            userRepository.save(existentUser);
+            return ResponseEntity.ok(new MessageResponse("Email modified successfully!"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Failed to modify email"));
+        }
+    }
+    public ResponseEntity<MessageResponse> updateHomeAddress(Long id_user, String newHomeAddress) {
+        User existentUser = userRepository.findById(id_user).orElse(null);
+        if (existentUser == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
+        }
+        existentUser.setHomeAddress(newHomeAddress);
+        try {
+            userRepository.save(existentUser);
+            return ResponseEntity.ok(new MessageResponse("Home address modified successfully!"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Failed to modify home address"));
+        }
+    }
+    public ResponseEntity<MessageResponse> updatePhone(Long id_user, int newPhone) {
+        User existentUser = userRepository.findById(id_user).orElse(null);
+        if (existentUser == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
+        }
+        existentUser.setPhone(newPhone);
+        try {
+            userRepository.save(existentUser);
+            return ResponseEntity.ok(new MessageResponse("Phone number modified successfully!"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Failed to modify phone number"));
+        }
+    }
+    public ResponseEntity<MessageResponse> updateAvgResponseTime(Long id_user, String newAvgResponseTime) {
+        User existentUser=userRepository.findById(id_user).orElse(null);
+        if (existentUser == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
+        }
+        existentUser.setAvgResponseTime(newAvgResponseTime);
+        try {
+            userRepository.save(existentUser);
+            return ResponseEntity.ok(new MessageResponse("Average response time modified successfully!"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Failed to modify average response time"));
+        }
+    }
+    public ResponseEntity<MessageResponse> updateDescription(Long id_user,String newDesciption) {
+        User existentUser = userRepository.findById(id_user).orElse(null) ;
+        if (existentUser == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("User not found")) ;
+        }
+        existentUser.setDescription(newDesciption);
+        try {
+            userRepository.save(existentUser);
+            return ResponseEntity.ok(new MessageResponse("Description modified successfully!")) ;
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Failed to modify description"));
+        }
+    }
+
+    public ResponseEntity<MessageResponse> updatePassword(Long id_user, String newPassword) {
+        User existentUser = userRepository.findById(id_user).orElse(null);
+        if (existentUser == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
+        }
+        existentUser.setPassword(newPassword);
+        try {
+            userRepository.save(existentUser);
+            return ResponseEntity.ok(new MessageResponse("Password modified successfully!"));
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Failed to modify password"));
+        }
+    }
+
+
 
     // Delete account:
     public ResponseEntity<MessageResponse> deleteAccount(Long userId) {

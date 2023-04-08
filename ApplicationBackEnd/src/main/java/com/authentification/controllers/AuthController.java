@@ -98,6 +98,6 @@ public class AuthController {
 		String jwt = jwtUtils.generateJwtToken(authentication);
 		// Print token to console
 		System.out.println("JWT token: " + jwt);
-		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+		return ResponseEntity.ok(new MessageResponse("User registered successfully!")+jwt);
 	}
 }
