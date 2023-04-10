@@ -46,10 +46,7 @@ function Dropdownimm() {
       path: "./Otherfurrycreatures",
       cName: "submenu-item",
     },
-  
   ];
- 
-  
 
   const [dropdown, setDropdown] = useState(false);
   const List = serviceDropdownimm.map((item) => {
@@ -69,7 +66,9 @@ function Dropdownimm() {
   return (
     <>
       <ul
-        className={dropdown ? "services-submenuimm clicked" : "services-submenuimm"}
+        className={
+          dropdown ? "services-submenuimm clicked" : "services-submenuimm"
+        }
         onClick={() => setDropdown(!dropdown)}
       >
         {List}

@@ -5,7 +5,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
-
+import { motion } from "framer-motion";
 const Singleproduct = ({ item: { name, description, price, thumb } }) => {
   console.log("name is here---------------------", name);
   const [spacing, setSpacing] = React.useState(2);
@@ -19,15 +19,15 @@ const Singleproduct = ({ item: { name, description, price, thumb } }) => {
   `;
 
   return (
-    <div>
+    <motion.div layout>
       <Card
         sx={{
           maxWidth: "1000px",
           marginTop: "10px",
-          boxShadow: "0 8px 32px rgba(31, 28, 135, 0.37)",
+          boxShadow: "0 5px 5px rgba(31, 28, 135, 0.37)",
           transition: "all 1s ease-out",
           borderRadius: "10px",
-          backgroundColor: "rgba(255,255,255,0.4)",
+          backgroundColor: "white",
           "&:hover": {
             backgroundColor: "#6104b794",
             borderRadius: "30px",
@@ -56,7 +56,7 @@ const Singleproduct = ({ item: { name, description, price, thumb } }) => {
           </CardContent>
         </CardActionArea>
       </Card>
-    </div>
+    </motion.div>
   );
 };
 

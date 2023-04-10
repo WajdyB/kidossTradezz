@@ -12,11 +12,15 @@ import React, { useEffect, useState } from "react";
 import { CartState } from "../../context/Context";
 import Navigator from "../../Components/Navigator/Navigator";
 import Content from "../../Components/Content/Content";
-import product_cart from "../../Components/data/product_data";
+import Product_cart from "../../Components/data/Product_cart";
 import Emptyview from "../../Components/EmptyView/Emptyview";
 import Crousell from "../../Components/Crousell/Crousell";
 import "./Discover.css";
+import NavBareElement from "../../Sup Components/NavBareElement";
+import Navbardiscover from "../../Components/Navbardiscover/Navbardiscover";
+import axios from "axios";
 
+import { motion } from "framer-motion";
 let theme = createTheme({
   mixins: {
     toolbar: {
@@ -43,7 +47,7 @@ export default function Discover() {
   ]);
 
   /****************************************************/
-  const [list, setList] = useState(product_cart);
+  const [list, setList] = useState([]);
   const [resultsFound, setResultsFound] = useState(true);
   /****************************************************/
   const handleChangeChecked = (id) => {
@@ -105,7 +109,7 @@ export default function Discover() {
 
   /****************************************************/
   const applyFilters = () => {
-    let updatedList = product_cart;
+    let updatedList = Product_cart;
 
     if (agesChecked.length) {
       updatedList = updatedList.filter((item) => {
@@ -133,8 +137,26 @@ export default function Discover() {
   /****************************************************/
 
   useEffect(() => {
+    axios
+      .get("http://localhost:2023/api/annonces/getAll", { headers })
+      .then((res) => {
+        if (res && res.data) {
+          console.log("res////////////////", res);
+          setList(res.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
     applyFilters();
   }, [ages, prices]);
+  const token = localStorage.getItem("token");
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  console.log("Hello world ", Product_cart);
+  console.log("******** list here ", list);
 
   /*--------------------------------------------------------*/
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -146,78 +168,72 @@ export default function Discover() {
     console.log(mobileOpen);
   };
   return (
-    <ThemeProvider theme={theme}>
-      <Box
-        className="Boxii"
-        sx={{
+    <div
+      sx={{
+        display: "flex",
+        justifyContent: "row",
+        backgroundColor: "red",
+      }}
+    >
+      <Navbardiscover />
+      <div
+        style={{
+          //backgroundColor: "#E8E8E8",
           display: "flex",
-          backgroundImage: `url(${imge})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundAttachment: "fixed",
+          justifyItems: "column",
+          width: "100%",
         }}
       >
-        <Box
-          component="nav"
-          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        >
-          {(isSmUp || !mobileOpen) && (
-            <Navigator
-              variant="temporary"
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              ages={ages}
-              changeChecked={handleChangeChecked}
-              prices={prices}
-              changePrice={handleChangePrice}
-            />
-          )}
-        </Box>
-
-        <Box
-          className="red"
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "column",
-            width: "100%",
-            maxWidth: "150vh",
-            marginTop: "2vh",
-            marginLeft: "8vh",
-            marginRight: "4vh",
+        <div
+          style={{
+            backgroundColor: "white",
+            display: "inline-block",
+            position: "sticky",
+            top: 0,
+            height: "100%",
           }}
         >
-          <Header onDrawerToggle={handleDrawerToggle} />
-          <div
-            style={{
-              overflow: "auto",
-              display: "flex",
-              height: "280px",
-              marginTop: "20px",
-              padding: "0px",
-              backgroundColor: "#f3ecb059",
-              boxShadow: "0 8px 32px rgba(31,28,135,0.37) ",
-              borderRadius: "10px",
-            }}
-          >
-            <Crousell />
-          </div>
+          <Navigator
+            variant="temporary"
+            ages={ages}
+            changeChecked={handleChangeChecked}
+            prices={prices}
+            changePrice={handleChangePrice}
+          />
+        </div>
 
+        <div
+          style={{
+            // backgroundColor: "green",
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            //alignItems: "center",
+            // height: "500px",
+          }}
+        >
           <div
             style={{
-              overflow: "auto",
-              display: "flex",
-              minHeight: "80vh",
-              marginTop: "20px",
-              backgroundColor: "#f3ecb059",
-              boxShadow: "0 8px 32px rgba(31,28,135,0.37) ",
-              borderRadius: "10px",
+              //  backgroundColor: "orange",
+              display: "inline-block",
             }}
           >
-            {<Content list={list} />}
+            <motion.div
+              style={{
+                marginTop: "40px",
+                overflow: "auto",
+                display: "flex",
+                minHeight: "80vh",
+                backgroundColor: "white",
+                borderRadius: "0px",
+              }}
+            >
+              {<Content list={list} />}
+            </motion.div>
           </div>
-        </Box>
-      </Box>
-    </ThemeProvider>
+        </div>
+      </div>
+    </div>
   );
 }

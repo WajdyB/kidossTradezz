@@ -1,58 +1,52 @@
-import './Title.css';
-import useWindowDimensions from '../../hooks/useWindowDimension';
-import Typewriter from 'typewriter-effect';
-import React from 'react';
-import Box from '@mui/material/Box';
+import "./Title.css";
+import useWindowDimensions from "../../hooks/useWindowDimension";
+import Typewriter from "typewriter-effect";
+import React from "react";
+import Box from "@mui/material/Box";
 
 function Title() {
-
-
   return (
-    <Box className="ph"
+    <Box
+      className="ph"
       style={{
-        marginTop: '120px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor:"#F3ECB0"
-        
+        //marginTop: "150px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <Box
         style={{
-          color: 'white',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          maxWidth: '1580px',
-          overflow: 'auto',
-        
+          color: "white",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
-        <Box className='title1' style={{ alignItems: 'center' }}>
+        <Box className="title1" style={{ alignItems: "center" }}>
           WE ARE
         </Box>
         <br />
-        <br />
-        <Box className='title2'>
+        <Box className="title2">
           <Typewriter
             options={{
               autoStart: true,
               loop: true,
               delay: 40,
               strings: [
-                'Interactive',
-                'Varied',
-                'Well-organized',
-                'Educational',
-                'Enjoyable',
+                "Interactive",
+                "Varied",
+                "Well-organized",
+                "Educational",
+                "Enjoyable",
+                "profitable",
+                "exciting",
               ],
             }}
           />
         </Box>
         <br />
-        <br />
-        <div className='title2'>We are Kiddos Tradez</div>
+        <div className="title1">We are Kiddos Tradez</div>
       </Box>
     </Box>
   );

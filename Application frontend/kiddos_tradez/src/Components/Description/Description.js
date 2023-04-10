@@ -1,8 +1,8 @@
-import useWindowDimensions from '../../hooks/useWindowDimension';
-import Typewriter from 'typewriter-effect';
-import './Description.css';
-import React from 'react';
-import Box from '@mui/material/Box';
+import useWindowDimensions from "../../hooks/useWindowDimension";
+import Typewriter from "typewriter-effect";
+import "./Description.css";
+import React from "react";
+import Box from "@mui/material/Box";
 
 function Description() {
   const { height } = useWindowDimensions();
@@ -11,37 +11,62 @@ function Description() {
   return (
     <Box
       style={{
-        marginTop: '0',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
+        marginTop: "0",
+
+        backgroundColor: "#46065c",
+        display: "flex",
+        justifyContent: "center" /* align items horizontally */,
+        alignItems: "center",
       }}
     >
+      <Box>
+        <Box
+          style={{
+            disply: "flex",
+            alignItems: "center",
+
+            width: "40vh",
+            height: "45vh",
+          }}
+        >
+          <h5>Looking for a hassle-free way to buy, sell, or exchange toys?</h5>
+
+          <h5>Look no further than Kiddos Tradez!</h5>
+        </Box>
+      </Box>
+      <Box sx={{ backgroundColor: "pink", width: "100px" }}></Box>
       <Box
         style={{
-          //color: 'black',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          maxWidth: '1580px',
-          overflow: 'auto',
+          alignItems: "center",
+          padding: "20px",
         }}
       >
-        <Box className='t' style={{ alignItems: 'center' }}>
+        <Box
+          style={{
+            disply: "flex",
+            alignItems: "center",
+
+            width: "60vh",
+            height: "45vh",
+          }}
+        >
+          <h5>Look no further than Kiddos Tradez!</h5>
+
           <p>
-          <h2>Looking for a hassle-free way to buy, sell, or exchange toys?</h2>
-          <h3>Look no further than Kiddos Tradez!</h3>
-          <p>With Kiddos Tradez,<br/>
-            you can easily browse through a vast selection of pre-loved toys,<br/>
-            sell or trade your own gently-used items,<br/>
-            and connect with a community of like-minded families who share your passion for play<br/>
-             <b className='bold'>So why wait?<br/>
-             Sign up for Kiddos Tradez today and discover a whole new world of toy<br/>
-                buying, selling, and swapping possibilities!</b> </p></p>
+            <p>
+              With Kiddos Tradez, you can easily browse through a vast selection
+              of pre-loved toys, sell or trade your own gently-used items, and
+              connect with a community of like-minded families who share your
+              passion for play
+              <br />
+              <b className="bold">
+                So why wait? Sign up for Kiddos Tradez today and discover a
+                whole new world of toy buying, selling, and swapping
+                possibilities!
+              </b>
+            </p>
+          </p>
         </Box>
-       
-        
       </Box>
     </Box>
   );

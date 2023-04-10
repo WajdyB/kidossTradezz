@@ -12,7 +12,7 @@ const Descriptionabus = () => {
     >
       <Box
         style={{
-          marginTop: "30px",
+          // marginTop: "30px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

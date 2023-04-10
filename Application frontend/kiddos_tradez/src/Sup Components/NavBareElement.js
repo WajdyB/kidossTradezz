@@ -25,8 +25,17 @@ const Elements = [
   { Txt: "My account", href: "/myaccount" },
 ];
 
+const Elements2 = [
+  { Txt: " Home", href: "/" },
+  { Txt: " About Us ", href: "/aboutus" },
+  { Txt: "Discover", href: "/discover" },
+  { Txt: "My Profile", href: "/myprofile" },
+];
+
 function NavBareElement(props) {
   const [navItems, setnavItems] = useState(Elements);
+  const [navItems2, setnavItems2] = useState(Elements2);
+
   const [activeIndex, setActiveIndex] = useState(0);
 
   const { window } = props;
@@ -67,19 +76,25 @@ function NavBareElement(props) {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar component="nav" sx={{ backgroundColor: "#F3ECB0" }}>
+      <AppBar
+        component="nav"
+        sx={{
+          backgroundColor: "rgba(255, 255, 255, 0)",
+          boxShadow: "none",
+        }}
+      >
         <Toolbar
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            fontFamily: "Ink Free",
+            fontFamily: "Proxima Nova , Verdana , Avenir Next",
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <img
               src={logo}
               alt="Logo"
-              style={{ height: "100px", margin: "10px", flexGrow: 1 }}
+              style={{ height: "90px", margin: "10px", flexGrow: 1 }}
             />
           </Box>
 
@@ -87,40 +102,68 @@ function NavBareElement(props) {
             sx={{
               display: "flex",
               alignItems: "center",
-              fontFamily: "Ink Free",
+              fontFamily: "Proxima Nova , Verdana , Avenir Next",
             }}
           >
             <Box
               sx={{
                 display: { xs: "none", sm: "block" },
-                fontFamily: "Ink Free",
+                fontFamily: "Proxima Nova, Verdana, Avenir Next",
               }}
             >
-              {navItems.map((element, i) => (
-                <Button
-                  key={element.Txt}
-                  sx={{
-                    color: "#fdfdfe",
-                    fontSize: "20px",
-                    fontFamily: "Ink Free",
-                    textShadow:
-                      "0px 0px 5px #b393d3, 0px 0px 10px #b393d3, 0px 0px 10px #b393d3, 0px 0px 20px #b393d3",
-                  }}
-                >
-                  <div>
-                    <NavLink
-                      to={element.href}
-                      style={{
-                        color: "inherit",
-                        textDecoration: "none",
-                        fontfamily: "Ink Free",
+              {localStorage.getItem("username") &&
+              localStorage.getItem("password")
+                ? navItems2.map((element, i) => (
+                    <Button
+                      key={element.Txt}
+                      sx={{
+                        color: "#fdfdfe",
+                        fontSize: "15px",
+                        fontFamily: "Proxima Nova, Verdana, Avenir Next",
+                        textShadow:
+                          "0px 0px 5px #b393d3, 0px 0px 10px #b393d3, 0px 0px 10px #b393d3, 0px 0px 20px #b393d3",
                       }}
                     >
-                      {element.Txt}
-                    </NavLink>
-                  </div>
-                </Button>
-              ))}
+                      <div>
+                        <NavLink
+                          to={element.href}
+                          style={{
+                            color: "inherit",
+                            textDecoration: "none",
+                            fontFamily: "Proxima Nova, Verdana, Avenir Next",
+                          }}
+                        >
+                          {element.Txt}
+                        </NavLink>
+                      </div>
+                    </Button>
+                  ))
+                : navItems.map((element, i) => (
+                    <Button
+                      key={element.Txt}
+                      sx={{
+                        color: "#fdfdfe",
+                        fontSize: "13px",
+                        fontFamily: "Proxima Nova, Verdana, Avenir Next",
+                        //  textShadow:
+                        //  "0px 0px 5px #b393d3, 0px 0px 10px #b393d3, 0px 0px 10px #b393d3, 0px 0px 20px #b393d3",
+                      }}
+                    >
+                      <div>
+                        <NavLink
+                          to={element.href}
+                          style={{
+                            color: "inherit",
+                            textDecoration: "none",
+                            fontFamily: "Proxima Nova, Verdana, Avenir Next",
+                            padding: "10px",
+                          }}
+                        >
+                          {element.Txt}
+                        </NavLink>
+                      </div>
+                    </Button>
+                  ))}
             </Box>
 
             <Box
@@ -128,10 +171,10 @@ function NavBareElement(props) {
                 display: { sm: "none" },
                 "& .MuiIconButton-root": {
                   color: "#9A0680",
-                  fontFamily: "Ink Free",
+                  fontFamily: "Proxima Nova , Verdana , Avenir Next",
                 },
-                textShadow:
-                  "0px 0px 5px #b393d3, 0px 0px 10px #b393d3, 0px 0px 10px #b393d3, 0px 0px 20px #b393d3",
+                // textShadow:
+                // "0px 0px 5px #b393d3, 0px 0px 10px #b393d3, 0px 0px 10px #b393d3, 0px 0px 20px #b393d3",
               }}
             >
               <IconButton
@@ -160,10 +203,10 @@ function NavBareElement(props) {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
-              backgroundColor: "#F3ECB0",
+              backgroundColor: "white",
               color: "#F3ECB0",
-              textShadow:
-                "0px 0px 5px #b393d3, 0px 0px 10px #b393d3, 0px 0px 10px #b393d3, 0px 0px 20px #b393d3",
+              //  textShadow:
+              //  "0px 0px 5px #b393d3, 0px 0px 10px #b393d3, 0px 0px 10px #b393d3, 0px 0px 20px #b393d3",
             },
           }}
         >

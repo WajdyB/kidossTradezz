@@ -34,9 +34,7 @@ function Dropdownart() {
       path: "./sewingmachines",
       cName: "submenu-item",
     },
-    
   ];
-
 
   const [dropdown, setDropdown] = useState(false);
   const List = serviceDropdownart.map((item) => {
@@ -56,7 +54,9 @@ function Dropdownart() {
   return (
     <>
       <ul
-        className={dropdown ? "services-submenuart clicked" : "services-submenuart"}
+        className={
+          dropdown ? "services-submenuimm clicked" : "services-submenuimm"
+        }
         onClick={() => setDropdown(!dropdown)}
       >
         {List}

@@ -1,12 +1,12 @@
 .services-submenuimm{
     width: 11rem;
     position: absolute;
-    top: 100px;
+    top: 120px;
     text-align: start;
-    background-color: #6eccae;;
+    background-color: #2D033B;
     border-radius: 15px;
-    z-index: 9999;
-    cursor: pointer;
+    z-index: 10;
+    cursor:default;
     
   
   }
@@ -16,7 +16,7 @@
     width:11rem;
     height: 4rem;
     padding: 15px;
-    background-color: #6eccae;
+    background-color: #2D033B;
     cursor: pointer;
     margin:0;
     border-radius: 15px;
@@ -33,7 +33,7 @@
   }
   
   .services-submenuimm.clicked {
-    display:block;
+    display:table;
   }
   
   .submenu-itemimm {

@@ -12,12 +12,18 @@ import InputLabel from "@mui/material/InputLabel";
 import InputUnstyled, { inputUnstyledClasses } from "@mui/base/InputUnstyled";
 import FormControl from "@mui/material/FormControl";
 import { Typography } from "@mui/material";
-import { useState } from "react";
 import { purple } from "@mui/material/colors";
 import ButtonUnstyled from "@mui/base/ButtonUnstyled";
 import PropTypes from "prop-types";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
+import { useNavigate, NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import basestyle from "../../Components/Base.module.css";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import backgroundImage from "../../Asserts/Logos/glassy.png";
 
 const purpl = {
   100: "#F5E1FF",
@@ -82,7 +88,7 @@ const StyledInputElement = styled("input")(
   background: inherit;
   border: none;
   border-radius: inherit;
-  padding: 12px 12px;
+  padding: 12px ;
   outline: 0;
 `
 );
@@ -101,7 +107,6 @@ const IconButton = styled(ButtonUnstyled)(
 );
 
 const InputAdornment = styled("div")`
-  margin: 8px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -129,30 +134,96 @@ CustomInput.propTypes = {
     textarea: PropTypes.elementType,
   }),
 };
+const SmallVisibilityIcon = styled(Visibility)({
+  fontSize: 16,
+  marginRight: 5,
+});
+const SmallVisibilityOffIcon = styled(VisibilityOff)({
+  fontSize: 16,
+  marginRight: 5,
+});
 
-function Myaccount() {
+function Myaccount({ setIsSignedUp }) {
+  const navigate = useNavigate();
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+
   const [values, setValues] = React.useState({
     username: "",
     password: "",
     showPassword: false,
   });
 
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
-
-  const handleclick = (e) => {
-    e.preventDefault();
-    const user = { username: values.username, password: values.password };
-    console.log(user);
-    fetch("http://localhost:2023/api/auth/signin", {
-      method: "authenticateUser",
-      Headers: { "Content-type": "applicetion/jason" },
-      body: JSON.stringify(user),
-    }).then(() => {
-      console.log("New user added");
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValues({
+      ...values,
+      [name]: value,
     });
   };
+
+  const handleclickk = (e) => {
+    e.preventDefault();
+    setFormErrors(validateForm(values));
+    setIsSubmit(true);
+  };
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setErrorMessage(null);
+  };
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      const post = {
+        username: values.username,
+        password: values.password,
+      };
+      console.log(post);
+
+      axios
+        .post("http://localhost:2023/api/auth/signin", post)
+        .then((res) => {
+          console.log(res);
+          console.log("im the token", res.data.token);
+          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("id", res.data.id);
+          localStorage.setItem("username", values.username);
+          localStorage.setItem("password", values.password);
+          setIsSignedUp(true);
+          navigate("/", { replace: true });
+
+          {
+            /* axios
+            .get(
+              "http://localhost:2023/accounts/getBy/username/${values.username}",
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              }
+            )
+            .then((response) => {
+              console.log("response------------------", response);
+              const { homeAddress, phone, firstName, lastName } = response.data;
+              //console.log(homeAddress, phone, firstName, lastName);
+
+              // Update state with additional user data
+              // setUserData({ homeAddress, phone, firstName, lastName });
+            })
+            .catch((error) => {
+              console.error(error);
+            });*/
+          }
+        })
+        .catch((error) => {
+          setErrorMessage("Username not found");
+        });
+    }
+  }, [formErrors]);
 
   const handleClickShowPassword = () => {
     setValues({
@@ -165,13 +236,37 @@ function Myaccount() {
     event.preventDefault();
   };
 
+  const validateForm = (values) => {
+    const error = {};
+
+    if (!values.username) {
+      error.username = "User Name is required";
+    }
+
+    if (!values.password) {
+      error.password = "Password is required";
+    } else if (values.password.length < 8) {
+      error.password = "Password must be at least 8 characters";
+    } else if (!/^[A-Z]/.test(values.password)) {
+      error.password = "Password must start with a capital letter";
+    } else if (!/\d/.test(values.password)) {
+      error.password = "Password must contain at least one number";
+    } else if (!/[!@#$%^&*]/.test(values.password)) {
+      error.password = "Password must contain at least one special character";
+    }
+
+    return error;
+  };
+
   return (
     <Box
       style={{
-        marginTop: "5px",
+        // marginTop: "5px",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: "cover",
       }}
     >
       <Box
@@ -208,63 +303,71 @@ function Myaccount() {
                     gap: 2,
                   }}
                 >
-                  <FormControl variant="standard" sx={{ margin: "0px" }}>
+                  <FormControl variant="standard" sx={{ margin: "10px" }}>
                     <Box>
                       <InputLabel
                         shrink
-                        htmlFor="User_name"
+                        htmlFor="Username"
                         sx={{
-                          color: "gris",
-                          "&.Mui-focused": { color: "purple" },
+                          color: "white",
+
+                          "&.Mui-focused": { color: "white" },
                         }}
                       >
-                        User Name
+                        Username
                       </InputLabel>
                       <CustomInput
-                        onChange={handleChange("username")}
-                        value={values.username}
                         sx={{ marginTop: "20px" }}
-                        id="outlined-start-adornment"
+                        name="username"
+                        onChange={handleChange}
+                        value={values.username}
+                        id="username"
                         startAdornment={<InputAdornment> </InputAdornment>}
                       />
+                      <p className={basestyle.button_common}>
+                        {formErrors.username}
+                      </p>
                     </Box>
-
                     <Box>
                       <InputLabel
                         shrink
-                        htmlFor="password-input"
+                        htmlFor="password"
                         sx={{
-                          color: "gris",
-                          margin: "75px",
-                          marginLeft: "0px",
-                          "&.Mui-focused": { color: "purple" },
+                          color: "white",
+                          marginTop: "90px",
+                          "&.Mui-focused": { color: "white" },
                         }}
                       >
                         Password
                       </InputLabel>
-
                       <CustomInput
-                        sx={{ marginTop: "28px" }}
-                        id="outlined-adornment-password"
+                        name="password"
+                        sx={{ marginTop: "15px" }}
+                        id="password"
                         type={values.showPassword ? "text" : "password"}
                         value={values.password}
-                        onChange={handleChange("password")}
+                        onChange={handleChange}
                         endAdornment={
                           <InputAdornment>
                             <IconButton
+                              sx={{ backgroundColor: "white" }}
                               aria-label="toggle password visibility"
                               onClick={handleClickShowPassword}
                               onMouseDown={handleMouseDownPassword}
                             >
                               {values.showPassword ? (
-                                <VisibilityOff />
+                                <SmallVisibilityOffIcon />
                               ) : (
-                                <Visibility />
+                                <SmallVisibilityIcon />
                               )}
                             </IconButton>
                           </InputAdornment>
                         }
                       />
+
+                      <p className={basestyle.button_common}>
+                        {formErrors.password}
+                      </p>
                     </Box>
                   </FormControl>
                 </Box>
@@ -283,7 +386,7 @@ function Myaccount() {
                       style={{
                         fontFamily: "Arial",
                         fontSize: 13,
-                        color: "gray",
+                        color: "white",
                       }}
                     >
                       Remember me
@@ -296,30 +399,38 @@ function Myaccount() {
                   color="secondary"
                   variant="outlined"
                   sx={{ mt: 2, mb: 2, marginLeft: "0px" }}
-                  onClick={handleclick}
+                  onClick={handleclickk}
                 >
                   Sign In
                 </Button>
 
                 <Grid container>
-                  <Grid item xs>
+                  <Grid item>
                     <Link
-                      href="/myaccount/forgotpassword"
+                      href="/forgotpassword"
                       variant="body2"
                       underline="hover"
-                      sx={{ color: "purple" }}
+                      sx={{ color: "white" }}
                     >
                       Forgot password?
                     </Link>
                   </Grid>
                   <Grid item>
                     <Link
-                      href="/myaccount/signin"
+                      href="/signin"
                       variant="body2"
                       underline="hover"
-                      sx={{ color: "purple" }}
+                      sx={{
+                        color: "white",
+                        textAlign: "center",
+                        display: "flex",
+                        marginLeft: "50px",
+                        marginTop: "4px",
+                      }}
                     >
-                      {"Don't have an account? Sign Up"}
+                      {"Don't have an account? "}
+                      <br />
+                      {"Sign Up"}
                     </Link>
                   </Grid>
                 </Grid>
@@ -328,6 +439,33 @@ function Myaccount() {
           </Box>
         </Box>
       </Box>
+      <form onSubmit={handleclickk}>
+        {/* form fields */}
+        <Snackbar
+          open={errorMessage !== null}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+        >
+          <MuiAlert
+            variant="filled"
+            onClose={handleCloseSnackbar}
+            severity="error"
+            sx={{
+              width: "300px",
+              height: "50px",
+              backgroundColor: "purple",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            {errorMessage}
+          </MuiAlert>
+        </Snackbar>
+      </form>
     </Box>
   );
 }

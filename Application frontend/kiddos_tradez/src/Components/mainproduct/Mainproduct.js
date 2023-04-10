@@ -26,7 +26,7 @@ const Mainproduct = () => {
         flexDirection: "row",
         flexWrap: "wrap",
         alignItems: "center",
-        backgroundColor: "white",
+        // backgroundColor: "red",
         gap: "20px",
         padding: " 20px",
       }}
