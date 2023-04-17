@@ -9,8 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -20,13 +27,6 @@ public class AccountService {
     @Autowired
     private UserRepository userRepository;
 
-    JwtUtils jwtUtils ;
-
-    /***
-     * Api for getting a user object by username
-     * @param username
-     * @return
-     */
     public ResponseEntity<Optional<User>> getUserByUsername (String username){
         Optional<User> user = userRepository.findByUsername(username);
         if (user != null) {
@@ -36,13 +36,6 @@ public class AccountService {
         }
     }
 
-
-    /***
-     * Api for updating firstname
-     * @param id_user
-     * @param newFirstName
-     * @return
-     */
     public ResponseEntity<MessageResponse> updateFirstName(Long id_user, String newFirstName) {
         User existentUser = userRepository.findById(id_user).orElse(null);
         if (existentUser == null) {
@@ -57,12 +50,6 @@ public class AccountService {
         }
     }
 
-    /***
-     * Api for updating lastname
-     * @param id_user
-     * @param newLastName
-     * @return
-     */
     public ResponseEntity<MessageResponse> updateLastName(Long id_user, String newLastName) {
         User existentUser = userRepository.findById(id_user).orElse(null);
         if (existentUser == null) {
@@ -77,12 +64,6 @@ public class AccountService {
         }
     }
 
-    /***
-     * Api for updating username
-     * @param id_user
-     * @param newUsername
-     * @return
-     */
     public ResponseEntity<MessageResponse> updateUsername(Long id_user, String newUsername) {
         User existentUser = userRepository.findById(id_user).orElse(null);
         if (existentUser == null) {
@@ -101,13 +82,6 @@ public class AccountService {
         }
     }
 
-
-    /***
-     * Api for updating email
-     * @param id_user
-     * @param newEmail
-     * @return
-     */
     public ResponseEntity<MessageResponse> updateEmail(Long id_user, String newEmail) {
         User existentUser = userRepository.findById(id_user).orElse(null);
         if (existentUser == null) {
@@ -126,13 +100,6 @@ public class AccountService {
         }
     }
 
-
-    /***
-     * Api for updating password
-     * @param id_user
-     * @param newPassword
-     * @return
-     */
     public ResponseEntity<MessageResponse> updatePassword(Long id_user, String newPassword) {
         User existentUser = userRepository.findById(id_user).orElse(null);
         if (existentUser == null) {
@@ -147,12 +114,26 @@ public class AccountService {
         }
     }
 
-    /***
-     * Api for updating homeAddress
-     * @param id_user
-     * @param newHomeAddress
-     * @return
-     */
+    public Map<String, Object> updateProfilePicture(Long userId, MultipartFile profilePicture) throws IOException {
+        Map<String, Object> response = new HashMap<>();
+
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (!userOptional.isPresent()) {
+            response.put("message", "Error: User not found!");
+            return response;
+        }
+        User user = userOptional.get();
+        String fileName = profilePicture.getOriginalFilename();
+        Path path = Paths.get("C:/ProfilePictures/" + fileName);
+        Files.write(path, profilePicture.getBytes());
+        user.setProfilePicturePath(path.toString());
+        userRepository.save(user);
+
+        response.put("message", "Profile picture updated successfully!");
+        response.put("profilePicturePath", user.getProfilePicturePath());
+        return response;
+    }
+
     public ResponseEntity<MessageResponse> updateHomeAddress(Long id_user, String newHomeAddress) {
         User existentUser = userRepository.findById(id_user).orElse(null);
         if (existentUser == null) {
@@ -167,12 +148,6 @@ public class AccountService {
         }
     }
 
-    /***
-     * Api for updating phone
-     * @param id_user
-     * @param newPhone
-     * @return
-     */
     public ResponseEntity<MessageResponse> updatePhone(Long id_user, int newPhone) {
         User existentUser = userRepository.findById(id_user).orElse(null);
         if (existentUser == null) {
@@ -187,12 +162,6 @@ public class AccountService {
         }
     }
 
-    /***
-     * Api for updating avgResponseTime
-     * @param id_user
-     * @param newAvgResponseTime
-     * @return
-     */
     public ResponseEntity<MessageResponse> updateAvgResponseTime(Long id_user, String newAvgResponseTime) {
         User existentUser = userRepository.findById(id_user).orElse(null);
         if (existentUser == null) {
@@ -207,12 +176,6 @@ public class AccountService {
         }
     }
 
-    /***
-     * Api for updating description
-     * @param id_user
-     * @param newDesciption
-     * @return
-     */
     public ResponseEntity<MessageResponse> updateDescription(Long id_user,String newDesciption) {
         User existentUser = userRepository.findById(id_user).orElse(null) ;
         if (existentUser == null) {
@@ -227,12 +190,6 @@ public class AccountService {
         }
     }
 
-
-    /***
-     * Api for deleting a user account
-     * @param id_user
-     * @return
-     */
     public ResponseEntity<MessageResponse> deleteAccount(Long id_user) {
         User existentUser = userRepository.findById(id_user).orElse(null);
 

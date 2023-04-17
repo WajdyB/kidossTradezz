@@ -66,7 +66,7 @@ public class UserService {
 
 
 
-    public Map<String, Object> registerUser(SignupRequest signUpRequest) throws IOException {
+    /*public Map<String, Object> registerUser(SignupRequest signUpRequest) throws IOException {
         Map<String, Object> response = new HashMap<>();
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             response.put("message", "Error: Username is already taken!");
@@ -103,7 +103,44 @@ public class UserService {
         response.put("message", Arrays.asList(new MessageResponse(successMessage), new MessageResponse(tokenMessage)));
         response.put("id", user.getId_user());
         return response;
+    }*/
+
+    public Map<String, Object> registerUser(SignupRequest signUpRequest) throws IOException {
+        Map<String, Object> response = new HashMap<>();
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+            response.put("message", "Error: Username is already taken!");
+            return response;
+        }
+
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            response.put("message", "Error: Email is already in use!");
+            return response;
+        }
+
+        User user = new User(
+                signUpRequest.getUsername(),
+                signUpRequest.getEmail(),
+                signUpRequest.getFirstname(),
+                signUpRequest.getLastname(),
+                signUpRequest.getHomeAddress(),
+                signUpRequest.getAvgResponseTime(),
+                signUpRequest.getPhone(),
+                signUpRequest.getDescription(),
+                encoder.encode(signUpRequest.getPassword())
+        );
+
+        userRepository.save(user);
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(signUpRequest.getUsername(), signUpRequest.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+        String successMessage = "User " + signUpRequest.getUsername() + " registered successfully!";
+        String tokenMessage = "Signup token: " + jwt;
+        response.put("message", Arrays.asList(new MessageResponse(successMessage), new MessageResponse(tokenMessage)));
+        response.put("id", user.getId_user());
+        return response;
     }
+
 
     public void logoutUser(HttpServletRequest request) {
         String token = extractJwtFromRequest(request);

@@ -9,6 +9,7 @@ import com.authentification.repositories.UserRepository;
 import com.authentification.service.AnnonceService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,13 +25,6 @@ public class AnnonceController {
 
     @Autowired
     private AnnonceService annonceService ;
-    @Autowired
-    private UserRepository userRepository ;
-    @Autowired
-    private AnnonceRepository annonceRepository ;
-    @Autowired
-    private JwtUtils jwtUtils ;
-    private User user ;
 
     @GetMapping("/getAll")
     public List<Map<String, Object>> getAllAnnonce() {
@@ -52,18 +46,34 @@ public class AnnonceController {
     public List<Annonce> getAnnonceForExchange(@RequestHeader("Authorization") String token) {
        return annonceService.getAnnoncesForExchange(token);
     }
-    @PostMapping("/add")
+
+    /*@GetMapping("/forSaleByOwner")
+    public List<Annonce> getAnnoncesForSaleByOwner(@RequestParam("id") Long id) {
+        return annonceService.getAnnoncesForSaleByOwner(id) ;
+    }
+    */
+    @GetMapping("/annonces/user/{userId}/sale")
+    public ResponseEntity<List<Annonce>> getAnnonceForSaleByUserId(@PathVariable Long userId) {
+        List<Annonce> annonces = annonceService.getAnnonceForSaleByUserId(userId);
+        return new ResponseEntity<>(annonces, HttpStatus.OK);
+    }
+
+    /*@GetMapping("/forExchangeByOwner")
+    public List<Annonce> getAnnonceForExchangeByOwner(@RequestParam("id") Long id) {
+        return annonceService.getAnnonceForExchangeByOwner(id) ;
+    }*/
+    @PostMapping("/add-annonce")
         public ResponseEntity<MessageResponse> addAnnonce(@RequestBody Annonce annonce,
                                                           @RequestHeader(value = "Authorization") String token) throws IOException {
             return annonceService.addAnnonce(annonce, token);
     }
-    @PutMapping("/{id}/modify")
+    @PutMapping("/{id}/modify-annonce")
     public ResponseEntity<MessageResponse> modifyAnnonce(@PathVariable("id") Long id,
                                                          @RequestBody Annonce annonce,
                                                          @RequestHeader(value = "Authorization") String token) {
         return annonceService.modifyAnnonce(id, annonce, token);
     }
-    @PutMapping("/{id}/archive")
+    @PutMapping("/{id}/archive-annonce")
     public ResponseEntity<MessageResponse> archiveAnnonce(@PathVariable("id") Long id,
                                                           @RequestHeader(value = "Authorization") String token) {
         return annonceService.archiveAnnonce(id, token);

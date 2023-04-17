@@ -55,7 +55,7 @@ public class Annonce {
 
         @JsonIgnore
         @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "id_user")
+        @JoinColumn(name = "id")
         private User user;
 
         @JsonIgnore

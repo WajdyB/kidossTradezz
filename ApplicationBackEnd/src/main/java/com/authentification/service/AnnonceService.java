@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -94,6 +95,21 @@ public class AnnonceService {
             return Collections.emptyList();
         }
     }
+    public List<Annonce> getAnnonceForSaleByUserId(Long userId) {
+        List<Annonce> annonces = annonceRepository.findByUserIdAndType(userId, AnnonceType.FOR_SALE);
+        if (annonces.isEmpty()) {
+            throw new EntityNotFoundException("No sale annonces found for user with id: " + userId);
+        }
+        return annonces;
+    }
+
+    /*public List<Annonce> getAnnoncesForSaleByOwner(Long id) {
+        return annonceRepository.findByUserIdAndType(id , AnnonceType.FOR_SALE);
+    }
+
+    public List<Annonce> getAnnonceForExchangeByOwner(Long id) {
+        return annonceRepository.findByUserIdAndType(id , AnnonceType.FOR_EXCHANGE);
+    }*/
 
 
 
