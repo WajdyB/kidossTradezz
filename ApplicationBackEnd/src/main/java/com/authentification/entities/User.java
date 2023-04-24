@@ -35,7 +35,7 @@ public class User {
 	@Column (name="lastname")
 	private String lastname ;
 
-	@Column(name = "profile_picture_path")
+	@Column(name = "profilePicturePath")
 	private String profilePicturePath;
 
 	@Column (name="email")
@@ -72,6 +72,8 @@ public class User {
 		this.description = description;
 	}
 
-	public void setProfilePicturePath(String toString) {
+	public void setProfilePicturePath(String profilePicturePath) {
+		this.profilePicturePath = profilePicturePath;
 	}
+
 }

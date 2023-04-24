@@ -2,17 +2,13 @@ package com.authentification.controllers;
 
 import com.authentification.entities.Annonce;
 import com.authentification.entities.User;
-import com.authentification.jwt.JwtUtils;
 import com.authentification.payload.MessageResponse;
-import com.authentification.repositories.AnnonceRepository;
-import com.authentification.repositories.UserRepository;
-import com.authentification.service.AnnonceService;
+import com.authentification.services.AnnonceService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -47,23 +43,8 @@ public class AnnonceController {
        return annonceService.getAnnoncesForExchange(token);
     }
 
-    /*@GetMapping("/forSaleByOwner")
-    public List<Annonce> getAnnoncesForSaleByOwner(@RequestParam("id") Long id) {
-        return annonceService.getAnnoncesForSaleByOwner(id) ;
-    }
-    */
-    @GetMapping("/annonces/user/{userId}/sale")
-    public ResponseEntity<List<Annonce>> getAnnonceForSaleByUserId(@PathVariable Long userId) {
-        List<Annonce> annonces = annonceService.getAnnonceForSaleByUserId(userId);
-        return new ResponseEntity<>(annonces, HttpStatus.OK);
-    }
-
-    /*@GetMapping("/forExchangeByOwner")
-    public List<Annonce> getAnnonceForExchangeByOwner(@RequestParam("id") Long id) {
-        return annonceService.getAnnonceForExchangeByOwner(id) ;
-    }*/
-    @PostMapping("/add-annonce")
-        public ResponseEntity<MessageResponse> addAnnonce(@RequestBody Annonce annonce,
+    @PostMapping(value="/add-annonce",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+        public ResponseEntity<MessageResponse> addAnnonce(@RequestBody Annonce annonce ,
                                                           @RequestHeader(value = "Authorization") String token) throws IOException {
             return annonceService.addAnnonce(annonce, token);
     }

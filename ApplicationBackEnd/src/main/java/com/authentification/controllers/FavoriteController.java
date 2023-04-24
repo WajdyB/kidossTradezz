@@ -5,17 +5,15 @@ import com.authentification.entities.Favorite;
 import com.authentification.entities.User;
 import com.authentification.jwt.JwtUtils;
 import com.authentification.payload.MessageResponse;
-import com.authentification.service.FavoriteService;
-import com.authentification.service.AnnonceService;
+import com.authentification.services.FavoriteService;
+import com.authentification.services.AnnonceService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 
@@ -44,6 +42,7 @@ public class FavoriteController {
     public ResponseEntity<?> addToFavorites(@PathVariable Long id_annonce, HttpServletRequest request) throws NotFoundException {
         String token = request.getHeader("Authorization").substring(7);
         Long userId = jwtUtils.getUserIdFromToken(token);
+        //System.out.println("USERID"+userId);
         Annonce annonce = annonceService.getAnnonceById(id_annonce);
         favoriteService.addToFavorites(annonce, userId);
         return ResponseEntity.ok(new MessageResponse("Annonce added to favorites successfully!"));

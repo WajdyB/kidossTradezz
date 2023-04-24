@@ -11,24 +11,19 @@ import Test from "./Test";
 
 function App() {
   return (
-    <div style={{ backgroundColor: "white" }}>
-      <BrowserRouter>
-        {/*<NavBareElement />*/}
-        <Routes>
-          <Route exact path="/" element={<Userinterface />} />
-          <Route path="/aboutus" element={<Aboutus />} />
-          <Route path="/discover" element={<Discover />} />
-          <Route path="/myaccount" element={<Myaccount />} />
-          <Route path="/myaccount/signin" element={<Signin />} />
-          <Route
-            path="/myaccount/forgotpassword"
-            element={<Forgotpassword />}
-          />
-          <Route path="/test" element={<Test />} />
-        </Routes>
-      </BrowserRouter>
-      {/*  <p>bfbf</p> */}
-    </div>
+    <div class="container">
+    <p>Dear User,</p>
+    <p>We have received a request to reset your password for our application. If you did not initiate this request, please ignore this email.</p>
+    <p>To proceed with resetting your password, please click on the button below:</p>
+    <form action="https://www.youtube.com/watch?v=WcIcVapfqXw" class="div">
+    
+      <button class="divbtn">Click</button>
+    </form>
+    <p>If the button does not work, you can also copy and paste the following URL into your browser:</p>
+
+    <p>Thank you for using our application!</p>
+    <p>The My App Team</p>
+  </div>
   );
 }
 

@@ -2,7 +2,7 @@ package com.authentification.controllers;
 
 import com.authentification.entities.User;
 import com.authentification.payload.MessageResponse;
-import com.authentification.service.AccountService;
+import com.authentification.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/accounts")
+@RequestMapping("/api/accounts")
 public class AccountController {
 
     @Autowired
@@ -54,15 +54,11 @@ public class AccountController {
         return accountService.updatePassword(id_user,newPassword);
     }
 
-        @PostMapping("/user/{id}/profile-picture")
-        public ResponseEntity<?> updateProfilePicture(@PathVariable("id") Long id, @RequestParam("file") MultipartFile file) {
-            try {
-                accountService.updateProfilePicture(id, file);
-                return ResponseEntity.ok(new MessageResponse("Profile picture updated successfully!"));
-            } catch (IOException e) {
-                return ResponseEntity.badRequest().body(new MessageResponse("Could not update profile picture!"));
-            }
-        }
+    @PutMapping("/{id_user}/update-profile-picture")
+    public ResponseEntity<?> updateProfilePicture(@PathVariable("id_user") Long id_user, @RequestParam("file") MultipartFile file) throws IOException {
+
+               return (ResponseEntity<?>) accountService.updateProfilePicture(id_user, file);
+    }
 
     @PutMapping("/{id_user}/update-homeaddress")
     public ResponseEntity<MessageResponse> updateHomeAddress(@PathVariable("id_user") Long id_user,
