@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -27,6 +28,11 @@ public class AccountService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder encoder;
+
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 
     public ResponseEntity<Optional<User>> getUserByUsername (String username){
         Optional<User> user = userRepository.findByUsername(username);

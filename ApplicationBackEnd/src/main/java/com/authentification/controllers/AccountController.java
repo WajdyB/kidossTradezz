@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -18,6 +19,11 @@ public class AccountController {
 
     @Autowired
     AccountService accountService ;
+
+    @GetMapping("/getAll")
+    public List<User> getAllUsers() {
+      return accountService.getAllUsers();
+    }
 
     @GetMapping("/getUser/{username}")
     public ResponseEntity<Optional<User>> getUserByUsername(@PathVariable("username") String username) {

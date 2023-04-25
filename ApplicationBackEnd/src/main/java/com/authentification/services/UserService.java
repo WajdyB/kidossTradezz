@@ -55,11 +55,6 @@ public class UserService {
     private PasswordResetTokenRepository passwordResetTokenRepository;
     @Autowired
     private EmailService emailService;
-    @Autowired
-    private JavaMailSender mailSender;
-
-    @Autowired
-    private ResourceLoader resourceLoader;
 
 
     public ResponseEntity<?> authenticateUser(LoginRequest loginRequest) {
@@ -81,8 +76,6 @@ public class UserService {
                     .body(new MessageResponse("Invalid username or password"));
         }
     }
-
-
     public Map<String, Object> registerUser(SignupRequest signUpRequest) {
         Map<String, Object> response = new HashMap<>();
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -118,8 +111,6 @@ public class UserService {
         response.put("id", user.getId_user());
         return response;
     }
-
-
     public void logoutUser(HttpServletRequest request) {
         String token = extractJwtFromRequest(request);
         jwtUtils.invalidateJwtToken(token);
@@ -132,28 +123,6 @@ public class UserService {
         }
         return null;
     }
-
-    /*public void forgotPassword(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
-        if (user == null) {
-            throw new UserNotFoundException("User not found");
-        }
-        PasswordResetToken token = passwordResetTokenRepository.findByUserEmail(email);
-        if (token != null) {
-            passwordResetTokenRepository.delete(token);
-        }
-        String newToken = Utils.generateRandomToken();
-        PasswordResetToken newResetToken = new PasswordResetToken();
-        newResetToken.setToken(newToken);
-        newResetToken.setUserEmail(email);
-        newResetToken.setExpiryDate(LocalDateTime.now().plusHours(1)); // Set token expiry to 1 hour
-        passwordResetTokenRepository.save(newResetToken);
-
-        String resetUrl = "https://yourdomain.com/reset-password?token=" + newToken;
-        String emailText = "To reset your password, click the following link: " + resetUrl;
-        emailService.sendEmail(email, "Password Reset", emailText);
-    }*/
-
     public void resetPassword(String token, String newPassword) {
         PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(token);
         if (resetToken == null || resetToken.getExpiryDate().isBefore(LocalDateTime.now())) {

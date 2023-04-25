@@ -4,17 +4,14 @@ import com.authentification.entities.PasswordResetToken;
 import com.authentification.entities.User;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Optional;
 
 @Service
 public class EmailService {
@@ -22,14 +19,6 @@ public class EmailService {
     private JavaMailSender mailSender;
     @Autowired
     ResourceLoader resourceLoader ;
-
-    /*public void sendEmail(String to, String subject, String text) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(text);
-        mailSender.send(message);
-    }*/
 
     public void sendPasswordResetEmail(User user, PasswordResetToken token, String resetUrl) throws MessagingException, IOException {
         MimeMessage message = mailSender.createMimeMessage();
