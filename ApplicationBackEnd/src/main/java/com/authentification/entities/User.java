@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -40,7 +41,6 @@ public class User {
 
 	@Column (name="email")
 	private String email;
-
 	@Column (name="homeAddress")
 	private String homeAddress ;
 
@@ -56,6 +56,8 @@ public class User {
 	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<Favorite> favorites;
+
+
 
 	public User(String username,String email, String firstname,
 				String lastname, String homeAddress, String avgResponseTime, int phone,

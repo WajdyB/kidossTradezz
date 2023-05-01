@@ -28,12 +28,7 @@ public class FavoriteController {
     @Autowired
     private JwtUtils jwtUtils ;
 
-    /***
-     * Api for getting all the favorites of a user
-     * @param id_user
-     * @return
-     */
-    @GetMapping("/{id_user}/getAllFavorite")
+    @GetMapping("/{id_user}/get-all-favorites")
     public List<Favorite> getAllFavorites(@PathVariable Long id_user) {
         return favoriteService.getAllFavorites(id_user);
     }
@@ -48,13 +43,6 @@ public class FavoriteController {
         return ResponseEntity.ok(new MessageResponse("Annonce added to favorites successfully!"));
     }
 
-
-    /***
-     * Api for removing an annonce from the user's favorites
-     * @param user
-     * @param id_annonce
-     * @throws NotFoundException
-     */
     @DeleteMapping("/{id_annonce}/remove-from-favorites")
     public void removeFromFavorites(@AuthenticationPrincipal User user, @PathVariable Long id_annonce) throws NotFoundException {
         Annonce annonce = annonceService.getAnnonceById(id_annonce);

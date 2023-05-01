@@ -87,7 +87,6 @@ public class UserService {
             response.put("message", "Error: Email is already in use!");
             return response;
         }
-
         User user = new User(
                 signUpRequest.getUsername(),
                 signUpRequest.getEmail(),

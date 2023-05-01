@@ -18,11 +18,6 @@ public class FavoriteService {
    @Autowired
    private UserRepository userRepository ;
 
-    /***
-     * Api for getting all the favorite of a user
-     * @param id_user
-     * @return
-     */
     public List<Favorite> getAllFavorites(Long id_user) {
         return favoriteRepository.findByUserId(id_user);
     }
@@ -45,13 +40,6 @@ public class FavoriteService {
         }
     }
 
-
-
-    /***
-     * Api for removing an annonce from the user's favorite
-     * @param user
-     * @param annonce
-     */
     public void removeFromFavorites(User user, Annonce annonce) {
         Optional<Favorite> existingFavorite = favoriteRepository.findByUserAndAnnonce(user, annonce);
         if (existingFavorite.isPresent()) {

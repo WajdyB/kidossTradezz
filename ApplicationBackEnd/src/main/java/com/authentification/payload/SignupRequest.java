@@ -1,12 +1,14 @@
 package com.authentification.payload;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class SignupRequest {
     private Long user_id ;
     @NotBlank
@@ -18,8 +20,6 @@ public class SignupRequest {
     @NotBlank
     private String lastname ;
     @NotBlank
-    private MultipartFile profilePicture ;
-    @NotBlank
     private String email;
     @NotBlank
     private String homeAddress ;
@@ -29,8 +29,5 @@ public class SignupRequest {
     private String avgResponseTime;
     @NotBlank
     private String description;
-
-    public MultipartFile getProfilePicture() { return profilePicture ;}
-    public void setProfilePicture(MultipartFile profilePicture) {this.profilePicture = profilePicture ;}
 
 }

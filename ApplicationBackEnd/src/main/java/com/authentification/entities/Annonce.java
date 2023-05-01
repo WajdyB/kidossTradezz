@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -55,7 +54,7 @@ public class Annonce {
 
         @JsonIgnore
         @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "id")
+        @JoinColumn(name = "id_user")
         private User user;
 
         @JsonIgnore

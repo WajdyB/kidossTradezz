@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -94,6 +95,23 @@ public class AnnonceService {
         }
     }
 
+    public List<Annonce> getAnnoncesForSaleById(Long id_user) {
+        Optional<User> user = userRepository.findById(id_user);
+        if (user.isPresent()) {
+            return annonceRepository.findByUserAndType(user.get(), AnnonceType.FOR_SALE);
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+    public List<Annonce> getAnnoncesForExchangeById(Long id_user) {
+        Optional<User> user = userRepository.findById(id_user);
+        if (user.isPresent()) {
+            return annonceRepository.findByUserAndType(user.get(), AnnonceType.FOR_EXCHANGE);
+        } else {
+            return Collections.emptyList();
+        }
+    }
 
 
     public ResponseEntity<MessageResponse> addAnnonce(Annonce annonce, String token) throws IOException {
@@ -113,9 +131,9 @@ public class AnnonceService {
             newAnnonce.setEstArchive(false);
             newAnnonce.setUser(user.get());
 
-            if (annonce.getPicture() != null) {
+           if (annonce.getPicture() != null) {
                 String fileName = annonce.getPicture().getOriginalFilename();
-                Path path = Paths.get("C:/AnnoncePictures/" + fileName);
+                Path path = Paths.get("C:/AnnoncesPictures/" + fileName);
                 Files.write(path, annonce.getPicture().getBytes());
                 newAnnonce.setPicturePath(path.toString());
             }
@@ -126,23 +144,39 @@ public class AnnonceService {
         return ResponseEntity.badRequest().body(new MessageResponse("Failed to add annonce."));
     }
 
-    public ResponseEntity<MessageResponse> modifyAnnonce(Long id, Annonce annonce, String token) {
+    public ResponseEntity<MessageResponse> modifyAnnonce(Long id_annonce, Annonce annonce, String token) {
         String username = jwtUtils.getUserNameFromJwtToken(token);
         Optional<User> user = userRepository.findByUsername(username);
 
         if (user.isPresent()) {
-            Optional<Annonce> annonceToUpdate = annonceRepository.findById(id);
+            Optional<Annonce> annonceToUpdate = annonceRepository.findById(id_annonce);
             if (annonceToUpdate.isPresent()) {
                 Annonce updatedAnnonce = annonceToUpdate.get();
                 if (updatedAnnonce.getUser().getId_user().equals(user.get().getId_user())) {
-                    updatedAnnonce.setName(annonce.getName());
-                    updatedAnnonce.setPrice(annonce.getPrice());
-                    updatedAnnonce.setType(annonce.getType());
-                    updatedAnnonce.setState(annonce.getState());
-                    updatedAnnonce.setAgeChild(annonce.getAgeChild());
-                    updatedAnnonce.setAgeToy(annonce.getAgeToy());
-                    updatedAnnonce.setCategory(annonce.getCategory());
-                    updatedAnnonce.setDescription(annonce.getDescription());
+                    if (annonce.getName() != null) {
+                        updatedAnnonce.setName(annonce.getName());
+                    }
+                    if (annonce.getPrice() != null) {
+                        updatedAnnonce.setPrice(annonce.getPrice());
+                    }
+                    if (annonce.getType() != null) {
+                        updatedAnnonce.setType(annonce.getType());
+                    }
+                    if (annonce.getState() != null) {
+                        updatedAnnonce.setState(annonce.getState());
+                    }
+                    if (annonce.getAgeChild() != null) {
+                        updatedAnnonce.setAgeChild(annonce.getAgeChild());
+                    }
+                    if (annonce.getAgeToy() != null) {
+                        updatedAnnonce.setAgeToy(annonce.getAgeToy());
+                    }
+                    if (annonce.getCategory() != null) {
+                        updatedAnnonce.setCategory(annonce.getCategory());
+                    }
+                    if (annonce.getDescription() != null) {
+                        updatedAnnonce.setDescription(annonce.getDescription());
+                    }
                     annonceRepository.save(updatedAnnonce);
                     return ResponseEntity.ok(new MessageResponse("Annonce modified successfully!"));
                 }
@@ -153,12 +187,13 @@ public class AnnonceService {
         return ResponseEntity.badRequest().body(new MessageResponse("Failed to modify annonce."));
     }
 
-    public ResponseEntity<MessageResponse> archiveAnnonce(Long id, String token) {
+
+    public ResponseEntity<MessageResponse> archiveAnnonce(Long id_annonce, String token) {
         String username = jwtUtils.getUserNameFromJwtToken(token);
         Optional<User> user = userRepository.findByUsername(username);
 
         if (user.isPresent()) {
-            Optional<Annonce> annonceToArchive = annonceRepository.findById(id);
+            Optional<Annonce> annonceToArchive = annonceRepository.findById(id_annonce);
             if (annonceToArchive.isPresent()) {
                 Annonce archivedAnnonce = annonceToArchive.get();
                 if (archivedAnnonce.getUser().getId_user().equals(user.get().getId_user())) {

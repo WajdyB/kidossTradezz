@@ -20,12 +20,12 @@ public class AccountController {
     @Autowired
     AccountService accountService ;
 
-    @GetMapping("/getAll")
+    @GetMapping("/get-all-users")
     public List<User> getAllUsers() {
       return accountService.getAllUsers();
     }
 
-    @GetMapping("/getUser/{username}")
+    @GetMapping("/get-user/{username}")
     public ResponseEntity<Optional<User>> getUserByUsername(@PathVariable("username") String username) {
         return accountService.getUserByUsername(username);
     }
@@ -78,7 +78,7 @@ public class AccountController {
         return accountService.updatePhone(id_user, newPhone);
     }
 
-    @PutMapping("/{id_user}/update-avgresponsetime")
+    @PutMapping("/{id_user}/update-avg-response-time")
     public ResponseEntity<MessageResponse> updateAvgResponseTime(@PathVariable("id_user") Long id_user,
                                                                  @RequestParam("newAvgResponseTime") String newAvgResponseTime) {
         return accountService.updateAvgResponseTime(id_user, newAvgResponseTime);
