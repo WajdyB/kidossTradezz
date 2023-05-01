@@ -158,7 +158,7 @@ public class UserService {
         newResetToken.setExpiryDate(LocalDateTime.now().plusHours(1)); // Set token expiry to 1 hour
         passwordResetTokenRepository.save(newResetToken);
 
-        String resetUrl = "https://yourdomain.com/reset-password?token=" + newToken;
+        String resetUrl = "http://localhost:3004/resetpassword?token=" + newToken;
 
         emailService.sendPasswordResetEmail(user, newResetToken, resetUrl);
     }
