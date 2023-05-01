@@ -36,6 +36,8 @@ public class AccountController {
         return accountService.updateFirstName(id_user, newFirstName);
     }
 
+
+
     @PutMapping("/{id_user}/update-lastname")
     public ResponseEntity<MessageResponse> updateLastName(@PathVariable("id_user") Long id_user,
                                                           @RequestParam("newLastName") String newLastName) {
