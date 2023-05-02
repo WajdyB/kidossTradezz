@@ -1,7 +1,6 @@
 package com.authentification.services;
 
 import com.authentification.entities.Annonce;
-import com.authentification.entities.AnnonceType;
 import com.authentification.entities.User;
 import com.authentification.jwt.JwtUtils;
 import com.authentification.payload.MessageResponse;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -79,7 +77,7 @@ public class AnnonceService {
         String username = jwtUtils.getUserNameFromJwtToken(token);
         Optional<User> user = userRepository.findByUsername(username);
         if (user.isPresent()) {
-            return annonceRepository.findByUserAndType(user.get(), AnnonceType.FOR_SALE);
+            return annonceRepository.findByUserAndType(user.get(), "For_Sale");
         } else {
             return Collections.emptyList();
         }
@@ -89,7 +87,7 @@ public class AnnonceService {
         String username = jwtUtils.getUserNameFromJwtToken(token);
         Optional<User> user = userRepository.findByUsername(username);
         if (user.isPresent()) {
-            return annonceRepository.findByUserAndType(user.get(), AnnonceType.FOR_EXCHANGE);
+            return annonceRepository.findByUserAndType(user.get(), "For_Exchange");
         } else {
             return Collections.emptyList();
         }
@@ -98,7 +96,7 @@ public class AnnonceService {
     public List<Annonce> getAnnoncesForSaleById(Long id_user) {
         Optional<User> user = userRepository.findById(id_user);
         if (user.isPresent()) {
-            return annonceRepository.findByUserAndType(user.get(), AnnonceType.FOR_SALE);
+            return annonceRepository.findByUserAndType(user.get(), "For_Sale");
         } else {
             return Collections.emptyList();
         }
@@ -107,7 +105,7 @@ public class AnnonceService {
     public List<Annonce> getAnnoncesForExchangeById(Long id_user) {
         Optional<User> user = userRepository.findById(id_user);
         if (user.isPresent()) {
-            return annonceRepository.findByUserAndType(user.get(), AnnonceType.FOR_EXCHANGE);
+            return annonceRepository.findByUserAndType(user.get(), "For_Exchange");
         } else {
             return Collections.emptyList();
         }
@@ -131,9 +129,12 @@ public class AnnonceService {
             newAnnonce.setEstArchive(false);
             newAnnonce.setUser(user.get());
 
-           if (annonce.getPicture() != null) {
-                String fileName = annonce.getPicture().getOriginalFilename();
-                Path path = Paths.get("C:/AnnoncesPictures/" + fileName);
+            if (annonce.getPicture() != null) {
+                String originalFilename = annonce.getPicture().getOriginalFilename();
+                String[] filenameParts = originalFilename.split("\\.");
+                String extension = filenameParts[filenameParts.length - 1];
+                String uniqueFilename = UUID.randomUUID().toString() + "." + extension;
+                Path path = Paths.get("C:/Projet de fin d'etude/kidossTradezz/ApplicationBackEnd/src/main/resources/images/AnnoncePictures/" + uniqueFilename);
                 Files.write(path, annonce.getPicture().getBytes());
                 newAnnonce.setPicturePath(path.toString());
             }

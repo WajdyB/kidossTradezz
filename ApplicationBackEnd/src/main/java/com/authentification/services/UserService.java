@@ -138,7 +138,7 @@ public class UserService {
         passwordResetTokenRepository.delete(resetToken);
     }
 
-    public void forgotPassword(String email) throws MessagingException, IOException {
+    public String forgotPassword(String email) throws MessagingException, IOException {
         Optional<User> userOptional = userRepository.findByEmail(email);
         if (!userOptional.isPresent()) {
             throw new UserNotFoundException("User not found");
@@ -161,6 +161,8 @@ public class UserService {
         String resetUrl = "http://localhost:3004/resetpassword?token=" + newToken;
 
         emailService.sendPasswordResetEmail(user, newResetToken, resetUrl);
+
+        return newToken;
     }
 
 

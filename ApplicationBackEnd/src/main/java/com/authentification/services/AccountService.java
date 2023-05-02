@@ -1,8 +1,10 @@
 package com.authentification.services;
 
+import com.authentification.entities.Annonce;
 import com.authentification.entities.User;
 import com.authentification.payload.MessageResponse;
 import com.authentification.repositories.UserRepository;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -32,6 +35,15 @@ public class AccountService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public User getUserById(Long id_user) throws NotFoundException {
+        Optional<User> annonceOptional = userRepository.findById(id_user);
+        if (annonceOptional.isPresent()) {
+            return annonceOptional.get();
+        } else {
+            throw new NotFoundException("Annonce with id " + id_user + " not found.");
+        }
     }
 
     public ResponseEntity<Optional<User>> getUserByUsername (String username){
@@ -131,7 +143,7 @@ public class AccountService {
         }
         User user = userOptional.get();
         String fileName = profilePicture.getOriginalFilename();
-        Path path = Paths.get("C:/ProfilePictures/" + fileName);
+        Path path = Paths.get("C:/Projet de fin d'etude/kidossTradezz/ApplicationBackEnd/src/main/resources/images/ProfilePictures/" + fileName);
         Files.write(path, profilePicture.getBytes());
         user.setProfilePicturePath(path.toString());
         userRepository.save(user);

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@CrossOrigin(origins = "http://localhost:3004")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/annonces")
 public class AnnonceController {
@@ -25,6 +25,10 @@ public class AnnonceController {
     @GetMapping("/get-all-annonces")
     public List<Map<String, Object>> getAllAnnonce() {
         return annonceService.getAllAnnonce();
+    }
+    @GetMapping("/{id_annonce}/get-annonce")
+    public Annonce getAnnonceById (@PathVariable("id_annonce") Long id_annonce) throws NotFoundException  {
+        return annonceService.getAnnonceById(id_annonce) ; 
     }
     @GetMapping("/get-annonce/{category}")
     public List<Annonce> getAnnonceByCategory(@PathVariable String category) {

@@ -1,6 +1,7 @@
 package com.authentification.controllers;
 
 
+import com.authentification.entities.ForgotPasswordResponse;
 import com.authentification.exceptions.InvalidTokenException;
 import com.authentification.exceptions.UserNotFoundException;
 import com.authentification.payload.MessageResponse;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:3004", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class UserController {
@@ -44,8 +45,10 @@ public class UserController {
 	@PostMapping("/forgot-password")
 	public ResponseEntity<?> forgotPassword(@RequestParam String email) {
 		try {
-			userService.forgotPassword(email);
-			return ResponseEntity.ok().body(new MessageResponse("An email with instructions to reset your password has been sent to your email address."));
+			String token = userService.forgotPassword(email);
+			String emailMessage = "An email with instructions to reset your password has been sent to your email address.";
+			String tokenMessage = token;
+			return ResponseEntity.ok().body(new ForgotPasswordResponse(emailMessage, tokenMessage));
 		} catch (UserNotFoundException ex) {
 			return ResponseEntity.badRequest().body("User not found.");
 		} catch (MessagingException e) {
@@ -54,6 +57,8 @@ public class UserController {
 			throw new RuntimeException(e);
 		}
 	}
+
+
 
 	@PostMapping("/reset-password")
 	public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestParam String newPassword) {

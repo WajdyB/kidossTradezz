@@ -29,8 +29,8 @@ public class Annonce {
         @Column(name = "state")
         private String state;
 
-        @Enumerated(EnumType.STRING)
-        private AnnonceType type;
+        @Column(name = "type")
+        private String type;
 
         @Column
         private String picturePath ;
