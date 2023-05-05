@@ -145,7 +145,7 @@ public class AnnonceService {
                 byte[] bytes = annonce.getPicture().getBytes();
                 Path path = Paths.get("C:/pfe/kidossTradezz/ApplicationBackEnd/src/main/webapp/WEB-INF/images/annonces/" + fileName + modifiedDate + "." + fileExtension);
                 Files.write(path, bytes);
-                newAnnonce.setPicturePath(originalFilename);
+                newAnnonce.setPicturePath(fileName + modifiedDate + "." + fileExtension);
             }
 
             annonceRepository.save(newAnnonce);

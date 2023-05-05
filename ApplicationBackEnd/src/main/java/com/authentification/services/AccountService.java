@@ -149,7 +149,7 @@ public class AccountService {
         Path path = Paths.get("C:/pfe/kidossTradezz/ApplicationBackEnd/src/main/webapp/WEB-INF/images/profiles/" + fileName + modifiedDate + "." + fileExtension);
         Files.write(path, bytes);
 
-        user.setProfilePicture(originalFilename);
+        user.setProfilePicture(fileName + modifiedDate + "." + fileExtension);
         userRepository.save(user);
 
         response.put("message", "Profile picture updated successfully!");
