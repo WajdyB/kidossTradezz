@@ -18,10 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -141,15 +138,22 @@ public class AccountService {
             response.put("message", "Error: User not found!");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
+
         User user = userOptional.get();
-        String fileName = profilePicture.getOriginalFilename();
-        Path path = Paths.get("C:/Projet de fin d'etude/kidossTradezz/ApplicationBackEnd/src/main/resources/images/ProfilePictures/" + fileName);
-        Files.write(path, profilePicture.getBytes());
-        user.setProfilePicturePath(path.toString());
+
+        String originalFilename = profilePicture.getOriginalFilename();
+        String fileName = originalFilename.split("\\.", 2)[0];
+        String fileExtension = originalFilename.split("\\.", 2)[1];
+        String modifiedDate = new Date().toString().replace(':', '.');
+        byte[] bytes = profilePicture.getBytes();
+        Path path = Paths.get("C:/pfe/kidossTradezz/ApplicationBackEnd/src/main/webapp/WEB-INF/images/profiles/" + fileName + modifiedDate + "." + fileExtension);
+        Files.write(path, bytes);
+
+        user.setProfilePicture(originalFilename);
         userRepository.save(user);
 
         response.put("message", "Profile picture updated successfully!");
-        response.put("profilePicturePath", user.getProfilePicturePath());
+        response.put("profilePicture", user.getProfilePicture());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -178,20 +182,6 @@ public class AccountService {
             return ResponseEntity.ok(new MessageResponse("Phone number modified successfully!"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new MessageResponse("Failed to modify phone number"));
-        }
-    }
-
-    public ResponseEntity<MessageResponse> updateAvgResponseTime(Long id_user, String newAvgResponseTime) {
-        User existentUser = userRepository.findById(id_user).orElse(null);
-        if (existentUser == null) {
-            return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
-        }
-        existentUser.setAvgResponseTime(newAvgResponseTime);
-        try {
-            userRepository.save(existentUser);
-            return ResponseEntity.ok(new MessageResponse("Average response time modified successfully!"));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Failed to modify average response time"));
         }
     }
 

@@ -26,8 +26,6 @@ public class SignupRequest {
     @NotBlank
     private int phone ;
     @NotBlank
-    private String avgResponseTime;
-    @NotBlank
     private String description;
 
 }

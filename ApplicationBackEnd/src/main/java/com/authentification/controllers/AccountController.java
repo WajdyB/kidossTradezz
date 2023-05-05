@@ -87,12 +87,6 @@ public class AccountController {
         return accountService.updatePhone(id_user, newPhone);
     }
 
-    @PutMapping("/{id_user}/update-avg-response-time")
-    public ResponseEntity<MessageResponse> updateAvgResponseTime(@PathVariable("id_user") Long id_user,
-                                                                 @RequestParam("newAvgResponseTime") String newAvgResponseTime) {
-        return accountService.updateAvgResponseTime(id_user, newAvgResponseTime);
-    }
-
     @PutMapping("/{id_user}/update-description")
     public ResponseEntity<MessageResponse> updateDescription(@PathVariable("id_user") Long id_user,
                                                                  @RequestParam("description") String newDescription) {

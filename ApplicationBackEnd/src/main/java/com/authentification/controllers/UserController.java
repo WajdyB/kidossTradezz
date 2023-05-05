@@ -31,7 +31,7 @@ public class UserController {
 		}
 
 	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) throws IOException {
+	public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) {
 		Map<String, Object> response = userService.registerUser(signUpRequest);
 		return ResponseEntity.ok().body(response);
 	    }

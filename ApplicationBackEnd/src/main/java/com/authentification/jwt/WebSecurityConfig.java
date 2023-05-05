@@ -52,6 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable()
@@ -62,16 +63,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api/annonces/**").permitAll()
 				.antMatchers("/api/favorites/**").permitAll()
 				.antMatchers("/swagger-ui.html").permitAll()
+				.antMatchers("/images/**").permitAll()
 		;
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/**")
-				.addResourceLocations("classpath:/public/")
-				.setCachePeriod(0);
-	}
+
 
 }
 

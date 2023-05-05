@@ -93,7 +93,6 @@ public class UserService {
                 signUpRequest.getFirstname(),
                 signUpRequest.getLastname(),
                 signUpRequest.getHomeAddress(),
-                signUpRequest.getAvgResponseTime(),
                 signUpRequest.getPhone(),
                 signUpRequest.getDescription(),
                 encoder.encode(signUpRequest.getPassword())
@@ -140,7 +139,7 @@ public class UserService {
 
     public String forgotPassword(String email) throws MessagingException, IOException {
         Optional<User> userOptional = userRepository.findByEmail(email);
-        if (!userOptional.isPresent()) {
+        if (userOptional.isEmpty()) {
             throw new UserNotFoundException("User not found");
         }
 

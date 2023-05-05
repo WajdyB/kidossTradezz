@@ -7,7 +7,10 @@ import com.authentification.payload.MessageResponse;
 import com.authentification.repositories.AnnonceRepository;
 import com.authentification.repositories.UserRepository;
 import javassist.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,12 +25,17 @@ import java.util.*;
 @Transactional
 public class AnnonceService {
 
+    final static Logger LOGGER = LoggerFactory.getLogger(AnnonceService.class);
+
     @Autowired
     private AnnonceRepository annonceRepository ;
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private JwtUtils jwtUtils ;
+
+    @Autowired
+    private Environment environment ;
 
     public List<Map<String, Object>> getAllAnnonce() {
         List<Annonce> annonces = annonceRepository.findAll();
@@ -129,14 +137,15 @@ public class AnnonceService {
             newAnnonce.setEstArchive(false);
             newAnnonce.setUser(user.get());
 
+            String modifiedDate = new Date().toString().replace(':', '.');
             if (annonce.getPicture() != null) {
                 String originalFilename = annonce.getPicture().getOriginalFilename();
-                String[] filenameParts = originalFilename.split("\\.");
-                String extension = filenameParts[filenameParts.length - 1];
-                String uniqueFilename = UUID.randomUUID().toString() + "." + extension;
-                Path path = Paths.get("C:/Projet de fin d'etude/kidossTradezz/ApplicationBackEnd/src/main/resources/images/AnnoncePictures/" + uniqueFilename);
-                Files.write(path, annonce.getPicture().getBytes());
-                newAnnonce.setPicturePath(path.toString());
+                String fileName = originalFilename.split("\\.", 2)[0];
+                String fileExtension = originalFilename.split("\\.", 2)[1];
+                byte[] bytes = annonce.getPicture().getBytes();
+                Path path = Paths.get("C:/pfe/kidossTradezz/ApplicationBackEnd/src/main/webapp/WEB-INF/images/annonces/" + fileName + modifiedDate + "." + fileExtension);
+                Files.write(path, bytes);
+                newAnnonce.setPicturePath(originalFilename);
             }
 
             annonceRepository.save(newAnnonce);

@@ -29,12 +29,12 @@ public class FavoriteController {
     private JwtUtils jwtUtils ;
 
     @GetMapping("/{id_user}/get-all-favorites")
-    public List<Favorite> getAllFavorites(@PathVariable Long id_user) {
+    public List<Favorite> getAllFavorites(@PathVariable("id_user")  Long id_user) {
         return favoriteService.getAllFavorites(id_user);
     }
 
     @PostMapping("/{id_annonce}/add-to-favorites")
-    public ResponseEntity<?> addToFavorites(@PathVariable Long id_annonce, HttpServletRequest request) throws NotFoundException {
+    public ResponseEntity<?> addToFavorites(@PathVariable("id_annonce")  Long id_annonce, HttpServletRequest request) throws NotFoundException {
         String token = request.getHeader("Authorization").substring(7);
         Long userId = jwtUtils.getUserIdFromToken(token);
         //System.out.println("USERID"+userId);
@@ -44,9 +44,8 @@ public class FavoriteController {
     }
 
     @DeleteMapping("/{id_annonce}/remove-from-favorites")
-    public void removeFromFavorites(@AuthenticationPrincipal User user, @PathVariable Long id_annonce) throws NotFoundException {
-        Annonce annonce = annonceService.getAnnonceById(id_annonce);
-        favoriteService.removeFromFavorites(user, annonce);
+    public void removeFromFavorites( @PathVariable("id_annonce")  Long id_annonce) throws NotFoundException {
+        favoriteService.removeFromFavorites(id_annonce);
     }
 
 }

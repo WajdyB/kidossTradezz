@@ -37,7 +37,7 @@ public class User {
 	private String lastname ;
 
 	@Column(name = "profilePicturePath")
-	private String profilePicturePath;
+	private String profilePicture;
 
 	@Column (name="email")
 	private String email;
@@ -46,9 +46,6 @@ public class User {
 
 	@Column (name="phone")
 	private int phone ;
-
-	@Column (name="avgResponseTime")
-	private String avgResponseTime;
 
 	@Column (name="description")
 	private String description;
@@ -60,7 +57,7 @@ public class User {
 
 
 	public User(String username,String email, String firstname,
-				String lastname, String homeAddress, String avgResponseTime, int phone,
+				String lastname, String homeAddress, int phone,
 				String description, String encode) {
 
 		this.username = username;
@@ -70,12 +67,11 @@ public class User {
 		this.email = email;
 		this.homeAddress = homeAddress;
 		this.phone = phone;
-		this.avgResponseTime = avgResponseTime;
 		this.description = description;
 	}
 
 	public void setProfilePicturePath(String profilePicturePath) {
-		this.profilePicturePath = profilePicturePath;
+		this.profilePicture = profilePicturePath;
 	}
 
 }

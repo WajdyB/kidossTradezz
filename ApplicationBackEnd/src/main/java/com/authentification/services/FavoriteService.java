@@ -40,10 +40,10 @@ public class FavoriteService {
         }
     }
 
-    public void removeFromFavorites(User user, Annonce annonce) {
-        Optional<Favorite> existingFavorite = favoriteRepository.findByUserAndAnnonce(user, annonce);
+    public void removeFromFavorites(Long id_annonce) {
+        Optional<Favorite> existingFavorite = favoriteRepository.findById(id_annonce);
         if (existingFavorite.isPresent()) {
-            favoriteRepository.delete(existingFavorite.get());
+            favoriteRepository.deleteById(id_annonce);
         } else {
             throw new IllegalStateException("This annonce is not in the user's favorites!");
         }
