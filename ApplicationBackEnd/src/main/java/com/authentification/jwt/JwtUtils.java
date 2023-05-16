@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import com.authentification.services.UserDetailsImpl;
+import com.authentification.ServicesImp.UserDetailsImpl;
 
 @Component
 	public class JwtUtils {
@@ -72,5 +72,7 @@ import com.authentification.services.UserDetailsImpl;
 			Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
 			return  Long.valueOf((Integer) claims.get("id"));
 		}
+
+
 
 	}

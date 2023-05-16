@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -16,6 +17,10 @@ public class Favorite implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "favorite_id")
     private Long favorite_id;
+
+    @Column(name = "date_added")
+    private Date dateAdded;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

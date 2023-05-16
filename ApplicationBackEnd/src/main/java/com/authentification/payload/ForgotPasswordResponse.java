@@ -1,4 +1,4 @@
-package com.authentification.entities;
+package com.authentification.payload;
 
 import lombok.Data;
 

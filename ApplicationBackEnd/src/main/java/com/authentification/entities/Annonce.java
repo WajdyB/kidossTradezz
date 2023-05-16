@@ -23,8 +23,8 @@ public class Annonce {
         @Column(name = "name")
         private String name;
 
-        @Column(name="price")
-        private String price ;
+        @Column(name = "price")
+        private String price;
 
         @Column(name = "state")
         private String state;
@@ -32,11 +32,11 @@ public class Annonce {
         @Column(name = "type")
         private String type;
 
-        @Column
-        private String picturePath ;
+        @Column(name = "picture")
+        private String picturePath;
 
         @Transient
-        private MultipartFile picture ;
+        private MultipartFile picture;
 
         @Column(name = "ageChild")
         private String ageChild;
@@ -61,5 +61,9 @@ public class Annonce {
         @OneToMany(mappedBy = "annonce")
         private List<Favorite> favorites;
 
-
 }
+
+
+
+
+

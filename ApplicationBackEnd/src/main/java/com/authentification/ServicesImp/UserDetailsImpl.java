@@ -1,8 +1,9 @@
-package com.authentification.services;
+package com.authentification.ServicesImp;
 
 import java.util.Collection;
 import java.util.Objects;
 
+import com.authentification.entities.UserStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,13 +17,15 @@ public class UserDetailsImpl implements UserDetails {
 	private String email;
 	@JsonIgnore
 	private String password;
+	private UserStatus status ;
 	private static Collection<? extends GrantedAuthority> authorities;
-	public UserDetailsImpl(Long id, String username, String email, String password,
+	public UserDetailsImpl(Long id, String username, String email, String password, UserStatus status,
 						   Collection<? extends GrantedAuthority> authorities) {
 		this.id = id;
 		this.username = username;
 		this.email = email;
 		this.password = password;
+		this.status = status;
 		this.authorities = authorities;
 	}
 	public static UserDetailsImpl build(User user) {
@@ -31,6 +34,7 @@ public class UserDetailsImpl implements UserDetails {
 				user.getUsername(),
 				user.getEmail(),
 				user.getPassword(),
+				user.getStatus(),
 				authorities);
 	}
 	@Override
@@ -51,6 +55,7 @@ public class UserDetailsImpl implements UserDetails {
 	public String getUsername() {
 		return username;
 	}
+	public UserStatus getStatus(){return status;}
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
@@ -63,10 +68,12 @@ public class UserDetailsImpl implements UserDetails {
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
+
 	@Override
 	public boolean isEnabled() {
 		return true;
 	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

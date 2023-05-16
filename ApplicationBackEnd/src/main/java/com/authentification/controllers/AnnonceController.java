@@ -1,9 +1,9 @@
 package com.authentification.controllers;
 
+import com.authentification.ServicesImp.AnnonceServiceImpl;
 import com.authentification.entities.Annonce;
 import com.authentification.entities.User;
 import com.authentification.payload.MessageResponse;
-import com.authentification.services.AnnonceService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -20,7 +20,7 @@ import java.util.Map;
 public class AnnonceController {
 
     @Autowired
-    private AnnonceService annonceService ;
+    private AnnonceServiceImpl annonceService ;
 
     @GetMapping("/get-all-annonces")
     public List<Map<String, Object>> getAllAnnonce() {
@@ -66,7 +66,7 @@ public class AnnonceController {
     @PutMapping("/{id_annonce}/modify-annonce")
     public ResponseEntity<MessageResponse> modifyAnnonce(@PathVariable("id_annonce") Long id_annonce,
                                                          @RequestBody Annonce annonce,
-                                                         @RequestHeader(value = "Authorization") String token) {
+                                                         @RequestHeader(value = "Authorization") String token) throws IOException {
         return annonceService.modifyAnnonce(id_annonce, annonce, token);
     }
     @PutMapping("/{id_annonce}/archive-annonce")

@@ -3,50 +3,19 @@ package com.authentification.services;
 import com.authentification.entities.Annonce;
 import com.authentification.entities.Favorite;
 import com.authentification.entities.User;
+import com.authentification.jwt.JwtUtils;
 import com.authentification.repositories.FavoriteRepository;
 import com.authentification.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class FavoriteService {
-   @Autowired
-    private FavoriteRepository favoriteRepository;
-   @Autowired
-   private UserRepository userRepository ;
-
-    public List<Favorite> getAllFavorites(Long id_user) {
-        return favoriteRepository.findByUserId(id_user);
-    }
-
-
-    public void addToFavorites(Annonce annonce, Long userId) {
-        if (userId == null) {
-            throw new IllegalArgumentException("User ID cannot be null!");
-        }
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
-            Optional<Favorite> existingFavorite = favoriteRepository.findByUserAndAnnonce(user.get(), annonce);
-            if (existingFavorite.isPresent()) {
-                throw new IllegalStateException("This annonce is already in the user's favorites!");
-            }
-            Favorite favorite = new Favorite();
-            favorite.setUser(user.get());
-            favorite.setAnnonce(annonce);
-            favoriteRepository.save(favorite);
-        }
-    }
-
-    public void removeFromFavorites(Long id_annonce) {
-        Optional<Favorite> existingFavorite = favoriteRepository.findById(id_annonce);
-        if (existingFavorite.isPresent()) {
-            favoriteRepository.deleteById(id_annonce);
-        } else {
-            throw new IllegalStateException("This annonce is not in the user's favorites!");
-        }
-
-    }
+public interface FavoriteService {
+     List<Favorite> getAllFavorites(Long id_user);
+     void addToFavorites(Annonce annonce, Long userId);
+     void removeFromFavorites(Long id_annonce, Long id_user);
 }

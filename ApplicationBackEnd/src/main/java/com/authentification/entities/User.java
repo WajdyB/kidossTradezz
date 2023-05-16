@@ -5,9 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import static com.authentification.entities.UserStatus.ACTIVE;
 
 @Data
 @AllArgsConstructor
@@ -36,7 +39,7 @@ public class User {
 	@Column (name="lastname")
 	private String lastname ;
 
-	@Column(name = "profilePicturePath")
+	@Column(name = "profilePicture")
 	private String profilePicture;
 
 	@Column (name="email")
@@ -49,11 +52,15 @@ public class User {
 
 	@Column (name="description")
 	private String description;
+	@Column
+	@Enumerated(EnumType.STRING)
+	private UserStatus status = ACTIVE;
+
+
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<Favorite> favorites;
-
 
 
 	public User(String username,String email, String firstname,
@@ -68,10 +75,6 @@ public class User {
 		this.homeAddress = homeAddress;
 		this.phone = phone;
 		this.description = description;
-	}
-
-	public void setProfilePicturePath(String profilePicturePath) {
-		this.profilePicture = profilePicturePath;
 	}
 
 }
