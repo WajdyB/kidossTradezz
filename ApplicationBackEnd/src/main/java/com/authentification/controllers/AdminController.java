@@ -6,8 +6,6 @@ import com.authentification.entities.Annonce;
 import com.authentification.entities.User;
 import com.authentification.payload.LoginRequest;
 import com.authentification.payload.MessageResponse;
-import com.authentification.services.AdminService;
-import com.authentification.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
