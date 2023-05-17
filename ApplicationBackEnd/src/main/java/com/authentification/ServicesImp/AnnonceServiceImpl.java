@@ -76,8 +76,8 @@ public class AnnonceServiceImpl implements AnnonceService {
     }
 
     public List<Annonce> getAnnoncesForSale(String token) {
-        String username = jwtUtils.getUserNameFromJwtToken(token);
-        Optional<User> user = userRepository.findByUsername(username);
+        Long id = jwtUtils.getUserIdFromToken(token);
+        Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             return annonceRepository.findByUserAndType(user.get(), "For_Sale");
         } else {
@@ -86,8 +86,8 @@ public class AnnonceServiceImpl implements AnnonceService {
     }
 
     public List<Annonce> getAnnoncesForExchange(String token) {
-        String username = jwtUtils.getUserNameFromJwtToken(token);
-        Optional<User> user = userRepository.findByUsername(username);
+        Long id = jwtUtils.getUserIdFromToken(token);
+        Optional<User> user = userRepository.findById(id);;
         if (user.isPresent()) {
             return annonceRepository.findByUserAndType(user.get(), "For_Exchange");
         } else {
@@ -116,8 +116,8 @@ public class AnnonceServiceImpl implements AnnonceService {
 
     public ResponseEntity<MessageResponse> addAnnonce(Annonce annonce, String token) throws IOException {
 
-        String username = jwtUtils.getUserNameFromJwtToken(token);
-        Optional<User> user = userRepository.findByUsername(username);
+        Long id = jwtUtils.getUserIdFromToken(token);
+        Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             Annonce newAnnonce = new Annonce();
             newAnnonce.setName(annonce.getName());
@@ -149,8 +149,8 @@ public class AnnonceServiceImpl implements AnnonceService {
     }
 
     public ResponseEntity<MessageResponse> modifyAnnonce(Long id_annonce, Annonce newAnnonce, String token) {
-        String username = jwtUtils.getUserNameFromJwtToken(token);
-        Optional<User> user = userRepository.findByUsername(username);
+        Long id = jwtUtils.getUserIdFromToken(token);
+        Optional<User> user = userRepository.findById(id);
 
         if (user.isPresent()) {
             Optional<Annonce> annonceToUpdate = annonceRepository.findById(id_annonce);
@@ -211,8 +211,8 @@ public class AnnonceServiceImpl implements AnnonceService {
 
 
     public ResponseEntity<MessageResponse> archiveAnnonce(Long id_annonce, String token) {
-        String username = jwtUtils.getUserNameFromJwtToken(token);
-        Optional<User> user = userRepository.findByUsername(username);
+        Long id = jwtUtils.getUserIdFromToken(token);
+        Optional<User> user = userRepository.findById(id);
 
         if (user.isPresent()) {
             Optional<Annonce> annonceToArchive = annonceRepository.findById(id_annonce);

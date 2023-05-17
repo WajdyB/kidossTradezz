@@ -3,6 +3,7 @@ package com.authentification.ServicesImp;
 import com.authentification.entities.Annonce;
 import com.authentification.entities.Favorite;
 import com.authentification.entities.User;
+import com.authentification.jwt.JwtUtils;
 import com.authentification.repositories.FavoriteRepository;
 import com.authentification.repositories.UserRepository;
 import com.authentification.services.FavoriteService;
@@ -21,16 +22,20 @@ public class FavoriteServiceImpl implements FavoriteService {
     @Autowired
     private UserRepository userRepository ;
 
+    @Autowired
+    private JwtUtils jwtUtils ;
+
     public List<Favorite> getAllFavorites(Long id_user) {
         return favoriteRepository.findByUserId(id_user);
     }
 
 
-    public void addToFavorites(Annonce annonce, Long userId) {
+    public void addToFavorites(Annonce annonce, Long userId , String token) {
         if (userId == null) {
             throw new IllegalArgumentException("User ID cannot be null!");
         }
-        Optional<User> user = userRepository.findById(userId);
+        Long id = jwtUtils.getUserIdFromToken(token);
+        Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             Optional<Favorite> existingFavorite = favoriteRepository.findByUserAndAnnonce(user.get(), annonce);
             if (existingFavorite.isPresent()) {
@@ -44,11 +49,12 @@ public class FavoriteServiceImpl implements FavoriteService {
         }
     }
 
-    public void removeFromFavorites(Long id_annonce, Long id_user) {
-        if (id_user == null) {
+    public void removeFromFavorites(Long id_annonce, String token) {
+        Long id = jwtUtils.getUserIdFromToken(token);
+        if (id == null) {
             throw new IllegalArgumentException("User ID cannot be null!");
         }
-        Optional<User> user = userRepository.findById(id_user);
+        Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             Optional<Favorite> existingFavorite = favoriteRepository.findByUserAndAnnonceId(user.get(), id_annonce);
             if (existingFavorite.isPresent()) {

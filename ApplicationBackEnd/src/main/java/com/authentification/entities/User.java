@@ -6,9 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static com.authentification.entities.UserStatus.ACTIVE;
 
@@ -25,6 +23,7 @@ import static com.authentification.entities.UserStatus.ACTIVE;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_user")
 	private Long id_user;
 
 	@Column(name="username")
@@ -56,7 +55,11 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private UserStatus status = ACTIVE;
 
+	@OneToMany(mappedBy = "ratedUser")
+	private List<Rating> receivedRatings;
 
+	@OneToMany(mappedBy = "ratingUser")
+	private List<Rating> givenRatings;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "user")
@@ -77,14 +80,5 @@ public class User {
 		this.description = description;
 	}
 
-
-
-
-
-
-
-
-
-
-
+    public User(String ratingUserId) {}
 }

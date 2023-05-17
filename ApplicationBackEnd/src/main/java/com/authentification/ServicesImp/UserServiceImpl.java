@@ -40,7 +40,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -142,7 +141,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public ResponseEntity<MessageResponse> updateFirstName(Long id_user, String newFirstName) {
+    public ResponseEntity<MessageResponse> updateFirstName(String newFirstName , String token) {
+        Long id_user = jwtUtils.getUserIdFromToken(token);
         User existentUser = userRepository.findById(id_user).orElse(null);
         if (existentUser == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
@@ -150,13 +150,14 @@ public class UserServiceImpl implements UserService {
         existentUser.setFirstname(newFirstName);
         try {
             userRepository.save(existentUser);
-            return ResponseEntity.ok(new MessageResponse("Lastname modified successfully!"));
+            return ResponseEntity.ok(new MessageResponse("Firstname modified successfully!"));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Failed to modify lastname"));
+            return ResponseEntity.badRequest().body(new MessageResponse("Failed to modify firstname"));
         }
     }
 
-    public ResponseEntity<MessageResponse> updateLastName(Long id_user, String newLastName) {
+    public ResponseEntity<MessageResponse> updateLastName(String newLastName,String token) {
+        Long id_user = jwtUtils.getUserIdFromToken(token);
         User existentUser = userRepository.findById(id_user).orElse(null);
         if (existentUser == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
@@ -170,7 +171,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public ResponseEntity<MessageResponse> updateUsername(Long id_user, String newUsername) {
+    public ResponseEntity<MessageResponse> updateUsername(String newUsername , String token) {
+        Long id_user = jwtUtils.getUserIdFromToken(token);
         User existentUser = userRepository.findById(id_user).orElse(null);
         if (existentUser == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
@@ -188,7 +190,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public ResponseEntity<MessageResponse> updateEmail(Long id_user, String newEmail) {
+    public ResponseEntity<MessageResponse> updateEmail(String newEmail, String token) {
+        Long id_user = jwtUtils.getUserIdFromToken(token);
         User existentUser = userRepository.findById(id_user).orElse(null);
         if (existentUser == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
@@ -206,7 +209,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public ResponseEntity<MessageResponse> updatePassword(Long id_user, String newPassword) {
+    public ResponseEntity<MessageResponse> updatePassword(String newPassword,String token) {
+        Long id_user = jwtUtils.getUserIdFromToken(token);
         User existentUser = userRepository.findById(id_user).orElse(null);
         if (existentUser == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
@@ -220,7 +224,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public ResponseEntity<Map<String, Object>> updateProfilePicture(Long id_user, MultipartFile profilePicture) throws IOException {
+    public ResponseEntity<Map<String, Object>> updateProfilePicture(MultipartFile profilePicture,String token) throws IOException {
+        Long id_user = jwtUtils.getUserIdFromToken(token);
         Map<String, Object> response = new HashMap<>();
         Optional<User> userOptional = userRepository.findById(id_user);
         if (!userOptional.isPresent()) {
@@ -244,7 +249,8 @@ public class UserServiceImpl implements UserService {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    public ResponseEntity<MessageResponse> updateHomeAddress(Long id_user, String newHomeAddress) {
+    public ResponseEntity<MessageResponse> updateHomeAddress(String newHomeAddress,String token) {
+        Long id_user = jwtUtils.getUserIdFromToken(token);
         User existentUser = userRepository.findById(id_user).orElse(null);
         if (existentUser == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
@@ -258,7 +264,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public ResponseEntity<MessageResponse> updatePhone(Long id_user, int newPhone) {
+    public ResponseEntity<MessageResponse> updatePhone(int newPhone,String token) {
+        Long id_user = jwtUtils.getUserIdFromToken(token);
         User existentUser = userRepository.findById(id_user).orElse(null);
         if (existentUser == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
@@ -272,12 +279,13 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public ResponseEntity<MessageResponse> updateDescription(Long id_user, String newDesciption) {
+    public ResponseEntity<MessageResponse> updateDescription(String newDescription,String token) {
+        Long id_user = jwtUtils.getUserIdFromToken(token);
         User existentUser = userRepository.findById(id_user).orElse(null);
         if (existentUser == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
         }
-        existentUser.setDescription(newDesciption);
+        existentUser.setDescription(newDescription);
         try {
             userRepository.save(existentUser);
             return ResponseEntity.ok(new MessageResponse("Description modified successfully!"));
@@ -286,7 +294,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public ResponseEntity<MessageResponse> deleteAccount(Long id_user) {
+    public ResponseEntity<MessageResponse> deleteAccount(String token) {
+        Long id_user = jwtUtils.getUserIdFromToken(token);
         User existentUser = userRepository.findById(id_user).orElse(null);
         if (existentUser == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("User Not found"));

@@ -66,7 +66,7 @@ public class AnnonceController {
     @PutMapping("/{id_annonce}/modify-annonce")
     public ResponseEntity<MessageResponse> modifyAnnonce(@PathVariable("id_annonce") Long id_annonce,
                                                          @RequestBody Annonce annonce,
-                                                         @RequestHeader(value = "Authorization") String token) throws IOException {
+                                                         @RequestHeader(value = "Authorization") String token) {
         return annonceService.modifyAnnonce(id_annonce, annonce, token);
     }
     @PutMapping("/{id_annonce}/archive-annonce")

@@ -17,7 +17,7 @@ import com.authentification.ServicesImp.UserDetailsImpl;
 		@Value("wajdiSecretKey")
 		private String jwtSecret;
 
-		@Value("86400000000")
+		@Value("86400000")
 		private Long jwtExpirationMs;
 
 		public String generateJwtToken(Authentication authentication) {

@@ -32,23 +32,27 @@ public class FavoriteController {
     }
 
     @PostMapping("/{id_annonce}/add-to-favorites")
-    public ResponseEntity<?> addToFavorites(@PathVariable("id_annonce")  Long id_annonce, HttpServletRequest request) throws NotFoundException {
-        String token = request.getHeader("Authorization").substring(7);
+    public ResponseEntity<?> addToFavorites(@PathVariable("id_annonce")  Long id_annonce,
+                                            @RequestHeader("Authorization") String token) throws NotFoundException {
         Long userId = jwtUtils.getUserIdFromToken(token);
         Annonce annonce = annonceService.getAnnonceById(id_annonce);
-        favoriteService.addToFavorites(annonce, userId);
+        favoriteService.addToFavorites(annonce, userId,token);
         return ResponseEntity.ok(new MessageResponse("Annonce added to favorites successfully!"));
     }
 
     @DeleteMapping("/{id_annonce}/remove-from-favorites")
-    public ResponseEntity<String> removeFromFavorites(@PathVariable("id_annonce") Long id_annonce, Long id_user) {
+    public ResponseEntity<MessageResponse> removeFromFavorites(@PathVariable("id_annonce") Long id_annonce,
+                                                               @RequestHeader("Authorization") String token) {
         try {
-            favoriteService.removeFromFavorites(id_annonce,id_user);
-            return new ResponseEntity<>("Announce removed from favorites", HttpStatus.OK);
-        } catch (IllegalStateException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            favoriteService.removeFromFavorites(id_annonce, token);
+            return ResponseEntity.ok(new MessageResponse("Annonce removed from favorites successfully!"));
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Failed to remove annonce from favorites: " + e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Failed to remove annonce from favorites: " + e.getMessage()));
         }
     }
+
 
 }
 

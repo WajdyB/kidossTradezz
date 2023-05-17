@@ -16,6 +16,6 @@ import java.util.Optional;
 @Service
 public interface FavoriteService {
      List<Favorite> getAllFavorites(Long id_user);
-     void addToFavorites(Annonce annonce, Long userId);
-     void removeFromFavorites(Long id_annonce, Long id_user);
+     void addToFavorites(Annonce annonce, Long userId,String token);
+     void removeFromFavorites(Long id_annonce, String token);
 }

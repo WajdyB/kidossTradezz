@@ -54,63 +54,63 @@ public class UserController {
 		return userService.getUserByUsername(username);
 	}
 
-	@PutMapping("/{id_user}/update-firstname")
-	public ResponseEntity<MessageResponse> updateFirstName(@PathVariable("id_user") Long id_user,
+	@PutMapping("/update-firstname")
+	public ResponseEntity<MessageResponse> updateFirstName(@RequestHeader("Authorization") String token,
 														   @RequestParam("newFirstName") String newFirstName) {
-		return userService.updateFirstName(id_user, newFirstName);
+		return userService.updateFirstName(newFirstName,token);
 	}
 
-	@PutMapping("/{id_user}/update-lastname")
-	public ResponseEntity<MessageResponse> updateLastName(@PathVariable("id_user") Long id_user,
+	@PutMapping("/update-lastname")
+	public ResponseEntity<MessageResponse> updateLastName(@RequestHeader("Authorization") String token,
 														  @RequestParam("newLastName") String newLastName) {
-		return userService.updateLastName(id_user, newLastName);
+		return userService.updateLastName(newLastName,token);
 	}
 
-	@PutMapping("/{id_user}/update-username")
-	public ResponseEntity<MessageResponse> updateUsername(@PathVariable("id_user") Long id_user,
+	@PutMapping("/update-username")
+	public ResponseEntity<MessageResponse> updateUsername(@RequestHeader("Authorization") String token,
 														  @RequestParam("newUsername") String newUsername) {
-		return userService.updateUsername(id_user, newUsername);
+		return userService.updateUsername(newUsername,token);
 	}
 
-	@PutMapping("/{id_user}/update-email")
-	public ResponseEntity<MessageResponse> updateEmail(@PathVariable("id_user") Long id_user,
+	@PutMapping("/update-email")
+	public ResponseEntity<MessageResponse> updateEmail(@RequestHeader("Authorization") String token,
 													   @RequestParam("newEmail") String newEmail) {
-		return userService.updateEmail(id_user, newEmail);
+		return userService.updateEmail(newEmail,token);
 	}
 
-	@PutMapping("/{id_user}/update-password")
-	public ResponseEntity<MessageResponse>updatePassword(@PathVariable("id_user") Long id_user,
+	@PutMapping("/update-password")
+	public ResponseEntity<MessageResponse>updatePassword(@RequestHeader("Authorization") String token,
 														 @RequestParam("newPassword") String newPassword) {
-		return userService.updatePassword(id_user,newPassword);
+		return userService.updatePassword(newPassword,token);
 	}
 
-	@PutMapping("/{id_user}/update-profile-picture")
-	public ResponseEntity<?> updateProfilePicture(@PathVariable("id_user") Long id_user, @RequestParam("profilePicture") MultipartFile profilePicture) throws IOException {
+	@PutMapping("/update-profile-picture")
+	public ResponseEntity<?> updateProfilePicture(@RequestHeader("Authorization") String token, @RequestParam("profilePicture") MultipartFile profilePicture) throws IOException {
 
-		return userService.updateProfilePicture(id_user, profilePicture);
+		return userService.updateProfilePicture(profilePicture,token);
 	}
 
-	@PutMapping("/{id_user}/update-homeaddress")
-	public ResponseEntity<MessageResponse> updateHomeAddress(@PathVariable("id_user") Long id_user,
+	@PutMapping("/update-homeaddress")
+	public ResponseEntity<MessageResponse> updateHomeAddress(@RequestHeader("Authorization") String token,
 															 @RequestParam("newHomeAddress") String newHomeAddress) {
-		return userService.updateHomeAddress(id_user, newHomeAddress);
+		return userService.updateHomeAddress(newHomeAddress,token);
 	}
 
-	@PutMapping("/{id_user}/update-phone")
-	public ResponseEntity<MessageResponse> updatePhone(@PathVariable("id_user") Long id_user,
+	@PutMapping("/update-phone")
+	public ResponseEntity<MessageResponse> updatePhone(@RequestHeader("Authorization") String token,
 													   @RequestParam("newPhone") int newPhone) {
-		return userService.updatePhone(id_user, newPhone);
+		return userService.updatePhone(newPhone,token);
 	}
 
-	@PutMapping("/{id_user}/update-description")
-	public ResponseEntity<MessageResponse> updateDescription(@PathVariable("id_user") Long id_user,
-															 @RequestParam("description") String newDescription) {
-		return userService.updateDescription(id_user, newDescription);
+	@PutMapping("/update-description")
+	public ResponseEntity<MessageResponse> updateDescription(@RequestHeader("Authorization") String token,
+															 @RequestParam("newDescription") String newDescription) {
+		return userService.updateDescription(newDescription,token);
 	}
 
-	@DeleteMapping("/{id_user}/delete-account")
-	public ResponseEntity<?> deleteAccount(@PathVariable("id_user") Long id_user) {
-		return userService.deleteAccount(id_user);
+	@DeleteMapping("/delete-account")
+	public ResponseEntity<?> deleteAccount(@RequestHeader("Authorization") String token) {
+		return userService.deleteAccount(token);
 	}
 
 
@@ -130,9 +130,7 @@ public class UserController {
 			return ResponseEntity.ok().body(new ForgotPasswordResponse(emailMessage, tokenMessage));
 		} catch (UserNotFoundException ex) {
 			return ResponseEntity.badRequest().body("User not found.");
-		} catch (MessagingException e) {
-			throw new RuntimeException(e);
-		} catch (IOException e) {
+		} catch (MessagingException | IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
