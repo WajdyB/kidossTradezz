@@ -51,6 +51,11 @@ public class User {
 
 	@Column (name="description")
 	private String description;
+
+	@Column
+	@Enumerated(EnumType.STRING)
+	private Role role ;
+
 	@Column
 	@Enumerated(EnumType.STRING)
 	private UserStatus status = ACTIVE;

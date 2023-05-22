@@ -1,6 +1,5 @@
 package com.authentification.jwt;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,15 +36,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
-	public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-		authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.inMemoryAuthentication()
+				.withUser("user").password("{noop}password").roles("USER")
+				.and()
+				.withUser("admin").password("{noop}password").roles("ADMIN");
 	}
 
 	@Bean
 	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
+	public AuthenticationManager authenticationManagerBean() throws Exception {return super.authenticationManagerBean();}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -58,19 +58,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().and().csrf().disable()
 				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-				.authorizeRequests().antMatchers("/api/auth/**").permitAll()
-				.antMatchers("/api/accounts/**").permitAll()
-				.antMatchers("/api/annonces/**").permitAll()
-				.antMatchers("/api/favorites/**").permitAll()
-				.antMatchers("/admin/**").permitAll()
+				.authorizeRequests()
+				.antMatchers("/api/users/signup","/api/users/signin").permitAll()
+				.antMatchers("/api/users/**").hasRole("USER")
+				.antMatchers("/api/annonces/**").hasRole("USER")
+				.antMatchers("/api/favorites/**").hasRole("USER")
+				.antMatchers("/api/ratings/**").hasRole("USER")
+				.antMatchers("/admin/**").hasRole("ADMIN")
 				.antMatchers("/swagger-ui.html").permitAll()
 				.antMatchers("/images/**").permitAll()
-		;
+				.anyRequest().authenticated()
+				;
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
-
-
 
 }
 

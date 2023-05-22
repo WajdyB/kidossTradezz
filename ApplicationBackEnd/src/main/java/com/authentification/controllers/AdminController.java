@@ -8,6 +8,7 @@ import com.authentification.payload.LoginRequest;
 import com.authentification.payload.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -25,12 +26,10 @@ public class AdminController {
     private UserServiceImpl userService ;
 
 
-
     @GetMapping("/get-all-users")
     public List<User> getUsers() {
        return adminService.getUsers();
     }
-
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateAdmin(@RequestBody LoginRequest loginRequest) {

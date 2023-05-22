@@ -8,6 +8,7 @@ import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api/annonces")
+@RequestMapping("api/annonces")
 public class AnnonceController {
 
     @Autowired
@@ -26,22 +27,27 @@ public class AnnonceController {
     public List<Map<String, Object>> getAllAnnonce() {
         return annonceService.getAllAnnonce();
     }
+
     @GetMapping("/{id_annonce}/get-annonce")
     public Annonce getAnnonceById (@PathVariable("id_annonce") Long id_annonce) throws NotFoundException  {
         return annonceService.getAnnonceById(id_annonce) ; 
     }
+
     @GetMapping("/get-annonce/{category}")
     public List<Annonce> getAnnonceByCategory(@PathVariable String category) {
         return annonceService.getAnnonceByCategory(category);
     }
+
     @GetMapping("/{id_annonce}/get-user")
     public User getUserByAnnonceId(@PathVariable("id_annonce") Long id_annonce) throws NotFoundException {
             return annonceService.getAnnonceOwner(id_annonce);
     }
+
     @GetMapping("/for-sale")
     public List<Annonce> getAnnoncesForSale(@RequestHeader("Authorization") String token) {
       return annonceService.getAnnoncesForSale(token);
     }
+
     @GetMapping("/for-exchange")
     public List<Annonce> getAnnonceForExchange(@RequestHeader("Authorization") String token) {
        return annonceService.getAnnoncesForExchange(token);
@@ -69,6 +75,7 @@ public class AnnonceController {
                                                          @RequestHeader(value = "Authorization") String token) {
         return annonceService.modifyAnnonce(id_annonce, annonce, token);
     }
+
     @PutMapping("/{id_annonce}/archive-annonce")
     public ResponseEntity<MessageResponse> archiveAnnonce(@PathVariable("id_annonce") Long id_annonce,
                                                           @RequestHeader(value = "Authorization") String token) {

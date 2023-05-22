@@ -10,6 +10,7 @@ import com.authentification.payload.MessageResponse;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.authentification.payload.LoginRequest;
 import com.authentification.payload.SignupRequest;
@@ -23,7 +24,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("api/users")
 public class UserController {
 	@Autowired
 	private UserServiceImpl userService;
@@ -114,7 +115,6 @@ public class UserController {
 	}
 
 
-
 	@PostMapping("/logout")
 	public ResponseEntity<?> logoutUser(HttpServletRequest request) {
 		userService.logoutUser(request);
@@ -134,8 +134,6 @@ public class UserController {
 			throw new RuntimeException(e);
 		}
 	}
-
-
 
 	@PostMapping("/reset-password")
 	public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestParam String newPassword) {

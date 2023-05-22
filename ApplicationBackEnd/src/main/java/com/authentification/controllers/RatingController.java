@@ -4,12 +4,13 @@ import com.authentification.ServicesImp.RatingServiceImpl;
 import com.authentification.payload.RatingRequest;
 import com.authentification.payload.RatingResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/ratings")
+@RequestMapping("api/ratings")
 public class RatingController {
 
     private final RatingServiceImpl ratingService;
@@ -21,8 +22,7 @@ public class RatingController {
     @PostMapping
     public ResponseEntity<?> createRating( @RequestHeader("Authorization") String token,
                                            @RequestBody RatingRequest ratingRequest) {
-        ratingService.createRating(ratingRequest,token);
-        return ResponseEntity.ok().build();
+       return ratingService.createRating(ratingRequest,token);
     }
 
     @GetMapping("/{userId}")

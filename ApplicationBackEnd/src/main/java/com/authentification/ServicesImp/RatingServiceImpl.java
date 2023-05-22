@@ -3,11 +3,14 @@ package com.authentification.ServicesImp;
 import com.authentification.entities.Rating;
 import com.authentification.entities.User;
 import com.authentification.jwt.JwtUtils;
+import com.authentification.payload.MessageResponse;
 import com.authentification.payload.RatingRequest;
 import com.authentification.payload.RatingResponse;
 import com.authentification.repositories.RatingRepository;
 import com.authentification.repositories.UserRepository;
 import com.authentification.services.RatingService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +30,7 @@ public class RatingServiceImpl implements RatingService {
         this.jwtUtils = jwtUtils ;
     }
 
-    public void createRating(RatingRequest ratingRequest , String token) {
+    public ResponseEntity<?> createRating(RatingRequest ratingRequest , String token) {
         Long id = jwtUtils.getUserIdFromToken(token);
         //Optional<User> user = userRepository.findByUsername(username);
         User ratedUser = userRepository.findById_user(ratingRequest.getRatedUserId())
@@ -43,6 +46,7 @@ public class RatingServiceImpl implements RatingService {
         rating.setComment(ratingRequest.getComment());
 
         ratingRepository.save(rating);
+        return ResponseEntity.ok(new MessageResponse("User rated successfully !"));
     }
 
     public List<RatingResponse> getRatingsForUser(Long id_user) {
