@@ -55,6 +55,10 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private UserStatus status = ACTIVE;
 
+	@Column
+	@Enumerated(EnumType.STRING)
+	private Role role = Role.USER;
+
 	@OneToMany(mappedBy = "ratedUser")
 	private List<Rating> receivedRatings;
 

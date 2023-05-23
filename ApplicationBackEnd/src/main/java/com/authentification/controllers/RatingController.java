@@ -3,6 +3,8 @@ package com.authentification.controllers;
 import com.authentification.ServicesImp.RatingServiceImpl;
 import com.authentification.payload.RatingRequest;
 import com.authentification.payload.RatingResponse;
+import com.authentification.payload.TopRatedUserResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +37,15 @@ public class RatingController {
     public ResponseEntity<Double> getAverageRatingForUser(@PathVariable Long userId) {
         Double averageRating = ratingService.getAverageRatingForUser(userId);
         return ResponseEntity.ok(averageRating);
+    }
+
+    @GetMapping("/top-rated")
+    public ResponseEntity<List<TopRatedUserResponse>> getTopRatedUsers() {
+        int limit = 1; // Specify the desired number of top-rated users to fetch
+
+        List<TopRatedUserResponse> topRatedUsers = ratingService.getTopRatedUsers(limit);
+
+        return ResponseEntity.status(HttpStatus.OK).body(topRatedUsers);
     }
 }
 

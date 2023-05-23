@@ -5,9 +5,12 @@ import com.authentification.entities.User;
 import com.authentification.jwt.JwtUtils;
 import com.authentification.payload.RatingRequest;
 import com.authentification.payload.RatingResponse;
+import com.authentification.payload.TopRatedUserResponse;
 import com.authentification.repositories.RatingRepository;
 import com.authentification.repositories.UserRepository;
 import com.authentification.services.RatingService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -61,6 +64,21 @@ public class RatingServiceImpl implements RatingService {
                         rating.getRatingValue(),
                         rating.getComment()
                 ))
+                .collect(Collectors.toList());
+    }
+
+    public List<TopRatedUserResponse> getTopRatedUsers(int limit) {
+        Pageable pageable = PageRequest.of(0, limit);
+        List<Object[]> topRatedUsers = ratingRepository.findTopRatedUsers(pageable);
+
+        return topRatedUsers.stream()
+                .map(result -> {
+                    Long userId = (Long) result[0];
+                    String username = (String) result[1];
+                    Double averageRating = (Double) result[2];
+
+                    return new TopRatedUserResponse(userId, username, averageRating);
+                })
                 .collect(Collectors.toList());
     }
 }
