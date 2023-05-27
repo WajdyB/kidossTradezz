@@ -4,6 +4,7 @@ import com.authentification.ServicesImp.AnnonceServiceImpl;
 import com.authentification.entities.Annonce;
 import com.authentification.entities.User;
 import com.authentification.payload.MessageResponse;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000",maxAge = 3600)
 @RestController
 @RequestMapping("/api/annonces")
 public class AnnonceController {
@@ -28,23 +29,28 @@ public class AnnonceController {
     }
     @GetMapping("/{id_annonce}/get-annonce")
     public Annonce getAnnonceById (@PathVariable("id_annonce") Long id_annonce) throws NotFoundException  {
-        return annonceService.getAnnonceById(id_annonce) ; 
+        return annonceService.getAnnonceById(id_annonce) ;
     }
     @GetMapping("/get-annonce/{category}")
     public List<Annonce> getAnnonceByCategory(@PathVariable String category) {
         return annonceService.getAnnonceByCategory(category);
     }
+
+    @GetMapping("/get-annonce-by-user/{id_user}")
+    public List<Annonce> getAnnonceByUserId(@PathVariable Long id_user) {
+        return annonceService.getAnnonceByUserId(id_user);
+    }
     @GetMapping("/{id_annonce}/get-user")
     public User getUserByAnnonceId(@PathVariable("id_annonce") Long id_annonce) throws NotFoundException {
-            return annonceService.getAnnonceOwner(id_annonce);
+        return annonceService.getAnnonceOwner(id_annonce);
     }
     @GetMapping("/for-sale")
     public List<Annonce> getAnnoncesForSale(@RequestHeader("Authorization") String token) {
-      return annonceService.getAnnoncesForSale(token);
+        return annonceService.getAnnoncesForSale(token);
     }
     @GetMapping("/for-exchange")
     public List<Annonce> getAnnonceForExchange(@RequestHeader("Authorization") String token) {
-       return annonceService.getAnnoncesForExchange(token);
+        return annonceService.getAnnoncesForExchange(token);
     }
 
     @GetMapping("/{id_user}/for-sale")
@@ -75,5 +81,3 @@ public class AnnonceController {
         return annonceService.archiveAnnonce(id_annonce, token);
     }
 }
-
-

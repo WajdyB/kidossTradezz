@@ -13,6 +13,7 @@ public interface AnnonceService {
      List<Map<String, Object>> getAllAnnonce();
      Annonce getAnnonceById(Long id_annonce) throws NotFoundException ;
      List<Annonce> getAnnonceByCategory(String category) ;
+     List<Annonce> getAnnonceByUserId(Long id_user);
      User getAnnonceOwner(Long id_annonce) throws NotFoundException ;
      List<Annonce> getAnnoncesForSale(String token) ;
      List<Annonce> getAnnoncesForExchange(String token) ;

@@ -34,7 +34,6 @@ public class Annonce {
 
         @Column(name = "picture")
         private String picturePath;
-
         @Transient
         private MultipartFile picture;
 

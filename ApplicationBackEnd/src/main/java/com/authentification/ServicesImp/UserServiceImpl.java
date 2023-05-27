@@ -1,18 +1,12 @@
 package com.authentification.ServicesImp;
 
-import com.authentification.entities.Annonce;
-import com.authentification.entities.Favorite;
-import com.authentification.entities.User;
-import com.authentification.entities.UserStatus;
+import com.authentification.entities.*;
 import com.authentification.exceptions.InvalidTokenException;
 import com.authentification.exceptions.UserNotFoundException;
 import com.authentification.jwt.JwtUtils;
 import com.authentification.jwt.Utils;
 import com.authentification.payload.*;
-import com.authentification.repositories.AnnonceRepository;
-import com.authentification.repositories.FavoriteRepository;
-import com.authentification.repositories.PasswordResetTokenRepository;
-import com.authentification.repositories.UserRepository;
+import com.authentification.repositories.*;
 import com.authentification.services.EmailService;
 import com.authentification.services.UserService;
 import javassist.NotFoundException;
@@ -54,6 +48,8 @@ public class UserServiceImpl implements UserService {
     private FavoriteRepository favoriteRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RatingRepository ratingRepository;
     @Autowired
     private PasswordResetTokenRepository passwordResetTokenRepository;
     @Autowired
@@ -303,6 +299,10 @@ public class UserServiceImpl implements UserService {
         List<Favorite> favorites = favoriteRepository.findByUser(existentUser);
         for (Favorite favorite : favorites) {
             favoriteRepository.deleteById(favorite.getFavorite_id());
+        }
+        List<Rating> ratings = ratingRepository.findByRatedUserId(id_user);
+        for (Rating rating : ratings) {
+            ratingRepository.deleteById(rating.getId());
         }
         try {
             List<Annonce> annonces = annonceRepository.findByUser(existentUser);

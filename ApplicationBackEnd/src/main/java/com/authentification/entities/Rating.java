@@ -1,6 +1,7 @@
 package com.authentification.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,10 +18,12 @@ public class Rating {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rated_user_id", referencedColumnName = "id_user")
     private User ratedUser;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rating_user_id")
     private User ratingUser;
@@ -31,4 +34,3 @@ public class Rating {
     @Column(name = "comment")
     private String comment;
 }
-

@@ -64,6 +64,9 @@ public class AnnonceServiceImpl implements AnnonceService {
     public List<Annonce> getAnnonceByCategory(String category) {
         return annonceRepository.findByCategory(category);
     }
+    public List<Annonce> getAnnonceByUserId(Long id_user) {
+        return annonceRepository.findByUserId(id_user);
+    }
 
     public User getAnnonceOwner(Long id_annonce) throws NotFoundException {
         Optional<Annonce> annonceOptional = annonceRepository.findById(id_annonce);

@@ -16,9 +16,9 @@ import static com.authentification.entities.UserStatus.ACTIVE;
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(	name = "users",
-		uniqueConstraints = { 
-			@UniqueConstraint(columnNames = "username"),
-			@UniqueConstraint(columnNames = "email") 
+		uniqueConstraints = {
+				@UniqueConstraint(columnNames = "username"),
+				@UniqueConstraint(columnNames = "email")
 		})
 public class User {
 	@Id
@@ -59,9 +59,11 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private Role role = Role.USER;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "ratedUser")
 	private List<Rating> receivedRatings;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "ratingUser")
 	private List<Rating> givenRatings;
 
@@ -84,5 +86,5 @@ public class User {
 		this.description = description;
 	}
 
-    public User(String ratingUserId) {}
+	public User(String ratingUserId) {}
 }

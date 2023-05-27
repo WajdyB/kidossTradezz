@@ -7,6 +7,7 @@ import com.authentification.payload.ForgotPasswordResponse;
 import com.authentification.exceptions.InvalidTokenException;
 import com.authentification.exceptions.UserNotFoundException;
 import com.authentification.payload.MessageResponse;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ import java.util.Optional;
 public class UserController {
 	@Autowired
 	private UserServiceImpl userService;
-
+	@JsonIgnore
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
 		return userService.authenticateUser(loginRequest);
@@ -37,7 +38,7 @@ public class UserController {
 	public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) {
 		Map<String, Object> response = userService.registerUser(signUpRequest);
 		return ResponseEntity.ok().body(response);
-	    }
+	}
 
 	@GetMapping("/get-all-users")
 	public List<User> getAllUsers() {
@@ -150,6 +151,3 @@ public class UserController {
 
 
 }
-
-
-

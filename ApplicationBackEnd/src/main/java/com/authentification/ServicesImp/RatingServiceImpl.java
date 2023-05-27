@@ -12,9 +12,7 @@ import com.authentification.services.RatingService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,7 +30,6 @@ public class RatingServiceImpl implements RatingService {
 
     public void createRating(RatingRequest ratingRequest , String token) {
         Long id = jwtUtils.getUserIdFromToken(token);
-        //Optional<User> user = userRepository.findByUsername(username);
         User ratedUser = userRepository.findById_user(ratingRequest.getRatedUserId())
                 .orElseThrow(() -> new IllegalArgumentException("Rated user not found."));
 
