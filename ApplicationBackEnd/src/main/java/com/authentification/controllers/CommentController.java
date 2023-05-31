@@ -4,17 +4,13 @@ import com.authentification.ServicesImp.AnnonceServiceImpl;
 import com.authentification.ServicesImp.CommentServiceImpl;
 import com.authentification.entities.Annonce;
 import com.authentification.entities.Comment;
-import com.authentification.entities.User;
 import com.authentification.payload.CommentRequest;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/comments")

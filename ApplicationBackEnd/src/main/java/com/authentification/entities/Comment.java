@@ -18,25 +18,16 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_user")
-    private User user;
-
-    @JsonIgnoreProperties({"hibernateLazyInitializer"})
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_annonce")
-    private Annonce annonce;
+    private Long id_comment;
     private ZonedDateTime createdDate;
     @Column(columnDefinition = "TEXT")
     private String text;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user")
+    private User user;
+    @JsonIgnoreProperties({"hibernateLazyInitializer"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_annonce")
+    private Annonce annonce;
 
-    @Transient
-    private Long userId;
-
-    @Transient
-    private Long annonceId;
 }

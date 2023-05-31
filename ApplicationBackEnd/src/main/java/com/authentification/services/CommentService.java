@@ -3,6 +3,8 @@ package com.authentification.services;
 import com.authentification.entities.Annonce;
 import com.authentification.entities.Comment;
 import com.authentification.payload.CommentRequest;
+import com.authentification.payload.CommentResponse;
+
 import java.util.List;
 
 public interface CommentService {

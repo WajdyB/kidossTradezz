@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_rating;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

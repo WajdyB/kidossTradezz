@@ -11,10 +11,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.authentification.payload.LoginRequest;
 import com.authentification.payload.SignupRequest;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.security.RolesAllowed;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -28,7 +31,7 @@ import java.util.Optional;
 public class UserController {
 	@Autowired
 	private UserServiceImpl userService;
-	@JsonIgnore
+
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
 		return userService.authenticateUser(loginRequest);
@@ -135,8 +138,6 @@ public class UserController {
 			throw new RuntimeException(e);
 		}
 	}
-
-
 
 	@PostMapping("/reset-password")
 	public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestParam String newPassword) {

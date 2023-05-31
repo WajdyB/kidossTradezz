@@ -57,7 +57,7 @@ public class RatingServiceImpl implements RatingService {
     public List<RatingResponse> mapRatingsToResponses(List<Rating> ratings) {
         return ratings.stream()
                 .map(rating -> new RatingResponse(
-                        rating.getId(),
+                        rating.getId_rating(),
                         rating.getRatingValue(),
                         rating.getComment()
                 ))

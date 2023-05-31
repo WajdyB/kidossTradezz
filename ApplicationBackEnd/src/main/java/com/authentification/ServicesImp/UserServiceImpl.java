@@ -302,7 +302,7 @@ public class UserServiceImpl implements UserService {
         }
         List<Rating> ratings = ratingRepository.findByRatedUserId(id_user);
         for (Rating rating : ratings) {
-            ratingRepository.deleteById(rating.getId());
+            ratingRepository.deleteById(rating.getId_rating());
         }
         try {
             List<Annonce> annonces = annonceRepository.findByUser(existentUser);

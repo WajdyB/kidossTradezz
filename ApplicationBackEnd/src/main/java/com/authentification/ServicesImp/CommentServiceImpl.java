@@ -38,10 +38,8 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = new Comment();
              comment.setText(commentRequest.getText());
              comment.setUser(user);
-             comment.setUserId(user.getId_user());
              comment.setAnnonce(annonce);
-             comment.setAnnonceId(annonce.getId_annonce());
-        if (comment.getId() == null)
+        if (comment.getId_comment() == null)
         {comment.setCreatedDate(ZonedDateTime.now());}
         else
         {comment.setCreatedDate(commentRequest.getCreatedDate());}
@@ -51,11 +49,6 @@ public class CommentServiceImpl implements CommentService {
 
 
     }
-    public List<Comment> getCommentsByAnnonceId(Long annonceId) {
-        return commentRepository.findByAnnonceId(annonceId);
-    }
-    public void delete(Long commentId) {
-        commentRepository.deleteById(commentId);
-
-    }
+    public List<Comment> getCommentsByAnnonceId(Long annonceId) {return commentRepository.findByAnnonceId(annonceId);}
+    public void delete(Long commentId) {commentRepository.deleteById(commentId);}
 }
