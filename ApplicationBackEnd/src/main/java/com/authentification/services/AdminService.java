@@ -17,6 +17,8 @@ public interface AdminService {
      String getUsername(Long id_user) ;
      List<Annonce> getAnnonces() ;
      ResponseEntity<MessageResponse> archiveAnnonce(Long id_annonce) ;
+     ResponseEntity<MessageResponse> restoreAnnonce(Long id_annonce);
+    void deleteAnnonce ( Long id_annonce);
 
 
 

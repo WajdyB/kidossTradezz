@@ -47,6 +47,16 @@ public class AdminController {
         return adminService.archiveAnnonce(id_annonce);
     }
 
+    @PutMapping("/annonces/restore/{id_annonce}")
+    public ResponseEntity<MessageResponse> restoreAnnonce(@PathVariable("id_annonce") Long id_annonce) {
+        return adminService.restoreAnnonce(id_annonce);
+    }
+
+    @DeleteMapping("/annonces/delete/{id_annonce}")
+    public void deleteAnnonce (@PathVariable("id_annonce") Long id_annonce) {
+        adminService.deleteAnnonce(id_annonce);
+    }
+
     @PostMapping("/logout")
     public ResponseEntity<?> logoutAdmin(HttpServletRequest request) {
         userService.logoutUser(request);
