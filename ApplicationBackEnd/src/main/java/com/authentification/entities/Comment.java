@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -22,6 +23,8 @@ public class Comment {
     private ZonedDateTime createdDate;
     @Column(columnDefinition = "TEXT")
     private String text;
+    @Column(name = "notification_sent")
+    private boolean notificationSent ;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
     private User user;
@@ -29,5 +32,9 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_annonce")
     private Annonce annonce;
+
+   @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
+    private List<Notification> notifications;
+
 
 }

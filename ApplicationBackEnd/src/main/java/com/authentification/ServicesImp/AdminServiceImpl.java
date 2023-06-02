@@ -2,7 +2,6 @@ package com.authentification.ServicesImp;
 
 import com.authentification.entities.Annonce;
 import com.authentification.entities.Comment;
-import com.authentification.entities.Favorite;
 import com.authentification.entities.User;
 import com.authentification.jwt.JwtUtils;
 import com.authentification.payload.MessageResponse;
@@ -59,6 +58,10 @@ public class AdminServiceImpl implements AdminService {
         sendAlertToUser(email, username, reason);
         return ResponseEntity.badRequest().body(new MessageResponse("User blocked successfully !"));
     }
+
+
+
+
     public void sendAlertToUser(String email, String username, String reason) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());

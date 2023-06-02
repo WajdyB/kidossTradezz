@@ -71,6 +71,9 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private List<Favorite> favorites;
 
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Notification> notifications;
+
 
 	public User(String username,String email, String firstname,
 				String lastname, String homeAddress, int phone,
